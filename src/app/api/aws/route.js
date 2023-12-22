@@ -5,7 +5,7 @@ import prisma from "@/modules/prisma";
 
 export async function POST(request) {
   const {
-    filename,
+    key,
     contentType,
   } = await request.json();
 
@@ -21,7 +21,7 @@ export async function POST(request) {
     // console.log("process.env.AWS_BUCKET_NAME", process.env.AWS_ACCESS_KEY_ID, process.env.AWS_SECRET_ACCESS_KEY, process.env.AWS_BUCKET_NAME, process.env.AWS_REGION)
     const { url, fields } = await createPresignedPost(client, {
       Bucket: process.env.AWS_BUCKET_NAME,
-      Key: `${filename}`,
+      Key: `${key}`,
       Conditions: [
         ["content-length-range", 0, 1048576*3], // up to 3 MB
         ["starts-with", "$Content-Type", contentType],

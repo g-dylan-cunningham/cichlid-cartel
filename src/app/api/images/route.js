@@ -9,61 +9,87 @@ export async function GET(request, res) {
   // console.log('speciesId', specie_id)
   const images = await prisma.images.findMany({
     where: {
-      specie_id: specie_id,
+      AND: [
+        {specie_id: specie_id},
+        {is_thumbnail: true}
+      ]
+
     },
   });
   return new Response(JSON.stringify(images));
 }
 
 export async function DELETE(req, res) {
-  const body = await req.json();
+  const deleteImageAwsAndPrisma = async (img) => {
+    console.log('DELETEEEEEEEEEE', img)
+    try {
+      // const client = new S3Client({ region: process.env.AWS_REGION }) // this line alone works if deployed on vercel. Check env var name
+      const client = new S3Client({ // full params are needed for non vercel deployment
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+        region: process.env.AWS_REGION,
+      });
+      const input = { // DeleteObjectRequest
+        Bucket: "cichlid-cartel", // required
+        Key: img.key, // required
+      };
+      const command = new DeleteObjectCommand(input);
+      awsResponse = await client.send(command);
+      // console.log("awsResponse", awsResponse);
+    } catch (e) {
+      console.log("e", e);
+    } finally {
+      try {
+        deletedImage = await prisma.images.delete({
+          where: {
+            image_id: img.image_id,
+          },
+        });
+        console.log("deletedImage", deletedImage);
+        return deletedImage;
+      } catch (e) {
+        throw e;
+      }
+    }
+  }
+
+  const { imagesToBeDeleted } = await req.json();
   let deletedImage = {};
   let awsResponse;
-  try {
-    // const client = new S3Client({ region: process.env.AWS_REGION }) // this line alone works if deployed on vercel. Check env var name
-    const client = new S3Client({ // full params are needed for non vercel deployment
-      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-      region: process.env.AWS_REGION,
-    });
-    const input = { // DeleteObjectRequest
-      Bucket: "cichlid-cartel", // required
-      Key: body?.key, // required
-    };
-    const command = new DeleteObjectCommand(input);
-    awsResponse = await client.send(command);
-    console.log("awsResponse", awsResponse);
-  } catch (e) {
-    console.log("e", e);
-  } finally {
-    try {
-      deletedImage = await prisma.images.delete({
-        where: {
-          image_id: body?.image_id,
-        },
-      });
-      console.log("deletedImage", deletedImage);
-    } catch (e) {
-      throw e;
-    }
 
-    return new Response(JSON.stringify(deletedImage));
-  }
+console.log("PROMISE ALLLLLL")
+  Promise.all(imagesToBeDeleted.map(img => deleteImageAwsAndPrisma(img))).then(data => {
+    console.log('data returned', data)
+  })
+  return new Response(JSON.stringify({}));
 }
 
 export async function POST(req) {
     try {
       const body = await req.json();
-      const { specie_id, fields, url, is_primary=false, is_secondary=false } = body;
+      const {
+        specie_id,
+        fields, url,
+        is_primary=false,
+        is_secondary=false,
+        is_thumbnail,
+        thumbnail_url,
+        full_image_url,
+        full_image_key
+      } = body;
       const newPrismaImage = await prisma.images.create({
         data: {
           specie_id,
           key: fields?.key,
           url: url + fields?.key,
-          thumbnail_id: 'todo',
-          full_image_id: 'todo',
+          thumbnail_url: 'todo',
+          full_image_url: 'todo',
           is_primary,
-          is_secondary
+          is_secondary,
+          is_thumbnail,
+          thumbnail_url,
+          full_image_url,
+          full_image_key,
         },
       });
       return Response.json({ ...newPrismaImage });
@@ -87,8 +113,8 @@ export async function POST(req) {
 //       specie_id: body.specie_id,
 //       sku_id: body.sku_id,
 //       url: body.url,
-//       thumbnail_id: 'todo',
-//       full_image_id: 'todo',
+//       thumbnail_url: 'todo',
+//       full_image_url: 'todo',
 //     },
 //   });
 //   return new Response(JSON.stringify(newImage));

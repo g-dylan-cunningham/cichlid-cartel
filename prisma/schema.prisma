@@ -67,10 +67,12 @@ model Images {
   // sku_id     String?
   is_primary    Boolean  @default(false)
   is_secondary  Boolean  @default(false)
+  is_thumbnail  Boolean  @default(false)
   key           String
   url           String
-  thumbnail_id  String?
-  full_image_id String?
+  thumbnail_url  String?
+  full_image_url String?
+  full_image_key String?
   created_at    DateTime @default(now())
   updated_at    DateTime @updatedAt
 
@@ -82,8 +84,8 @@ model Images {
 //   store_name     String
 //   key           String
 //   url           String
-//   thumbnail_id  String?
-//   full_image_id String?
+//   thumbnail_url  String?
+//   full_image_url String?
 //   created_at    DateTime @default(now())
 //   updated_at    DateTime @updatedAt
 

@@ -27,13 +27,6 @@ body {
     rgb(var(--background-start-rgb)); */
 }
 
-/* span {
-  font-family: sans-serif;
-} */
-/* h1, h2, h3, h4, h5, h6 {
-  font-family: "Roboto"
-} */
-
 *,
 *::before,
 *::after {
@@ -83,4 +76,8 @@ textarea:disabled {
 }
 textarea {
   font-size: 1rem!important;
+}
+
+.label .label-text {
+  font-size: 1rem;
 }

@@ -2,23 +2,31 @@ import prisma from "@/modules/prisma";
 import Link from "next/link";
 import Image from "next/image";
 
-
 export default async function Admin() {
-
   const species = await prisma.species.findMany({
     orderBy: { created_at: "desc" },
-    include: { skus: true },
+    include: {
+      skus: {
+        orderBy: { created_at: "desc" },
+      },
+      images: {
+        where: {
+          is_primary: true,
+          is_thumbnail: true
+        },
+      },
+    },
   });
-
+  console.log("SPECIESSSss", species[0].images[0].thumbnail_url);
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1 className="text-xl">My Store Offerings:</h1>
+      <h1 className="text-xl">Cichlid Cartel Store:</h1>
 
       <div className="overflow-x-auto">
-        <table className="table-auto">
+        <table className="table table-xs table-pin-rows table-pin-cols">
           {/* head */}
           <thead>
-            <tr>
+            <tr className="m-6">
               <th>
                 <label>EDIT</label>
               </th>
@@ -47,8 +55,9 @@ export default async function Admin() {
                   <div className="flex items-center gap-3">
                     <div className="avatar">
                       <div className="mask mask-squircle w-12 h-12">
+                      
                         <Image
-                          src="/next.svg" // TODO make into fish image
+                          src={specie.images[0]?.thumbnail_url}
                           alt=""
                           width={30}
                           height={30}
@@ -64,7 +73,7 @@ export default async function Admin() {
                   </div>
                 </td>
 
-                <td>{specie.description}</td>
+                <td style={{ maxWidth: '10vw'}}>{specie.description}</td>
                 <td>
                   <TableElement specie={specie} property="size" />
                 </td>
@@ -84,10 +93,7 @@ export default async function Admin() {
                   >
                     Add New
                   </Link>{" "}
-                  
-                  <div
-                    className="badge badge-warning badge-sm block mt-2"
-                  >
+                  <div className="badge badge-warning badge-sm block mt-2">
                     Delete Sku
                   </div>
                 </td>
@@ -115,7 +121,6 @@ export default async function Admin() {
 }
 
 const TableElement = ({ specie, property }) => {
-
   return (
     <ul>
       {specie.skus.map((sku, i) => {

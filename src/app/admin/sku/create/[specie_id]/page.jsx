@@ -35,8 +35,6 @@ const SkuCreate = ({ params: { specie_id } }) => {
       });
   }, [specie_id]);
 
-
-
   const handleSkuCreate = async (values) => {
     const payload = { ...values, specie_id };
     setIsSkuLoading(true);
@@ -56,25 +54,10 @@ const SkuCreate = ({ params: { specie_id } }) => {
         setIsSkuLoading(false);
         console.log(e)
       });
-    
   }
 
   const { sexList, sizeList } = enumArr;
   const { sexMap, sizeMap } = enumMap;
-
-//   <label className="form-control w-full max-w-xs">
-//   <div className="label">
-//     <span className="label-text font-sans">Price</span>
-//   </div>
-//   <input
-//     type="text"
-//     name="price"
-//     id="price"
-//     className="input input-bordered w-full max-w-xs"
-//     onChange={handleChange}
-//     value={formik.values.price}
-//   ></input>
-// </label>
 
   const textInputs = [
     { label: "Price (ex. 99.99)", type: "text", name: "price" },
@@ -91,32 +74,16 @@ const SkuCreate = ({ params: { specie_id } }) => {
     },
     onSubmit: handleSkuCreate,
     validate: formValidation
-    // validationSchema: yup.object().shape({
-    //   size: yup.string().required().min(1).max(5),
-    //   sex: yup.string().required,
-    //   description: yup.string().required().min(3).max(500),
-    // }),
   });
 
   const handleChange = (e) => {
     const { target } = e;
-
     if (target.name === 'price') {
-      // const pattern = /\d\.?\d/;
-      // let result = pattern.test(target.value);
-      // debugger
-      // if (target.value.replace(/[^0-9\.\$]/g,"")){
-        formik.setFieldValue(target.name, target.value.replace(/[^0-9\.\$]/g,""));
-        return;
-      // }
-      
+      formik.setFieldValue(target.name, target.value.replace(/[^0-9\.\$]/g,""));
+    } else {
+      formik.setFieldValue(target.name, target.value);
     }
-
-    console.log('target',target.name, typeof target.value)
-    formik.setFieldValue(target.name, target.value);
   };
-
-  // console.log('formik', formik)
 
   if (isSpecieLoading) {
     return <div>specie loading...</div>
@@ -138,9 +105,13 @@ const SkuCreate = ({ params: { specie_id } }) => {
               <span className="label-text font-sans">Size</span>
             </div>
             <select
-              // defaultValue="default"
               name="size"
-              className="select select-bordered w-full max-w-xs"
+              className={`select select-bordered w-full max-w-xs
+              ${
+                formik.errors.size
+                  ? "border border-red-400 focus:border-red-400"
+                  : ""
+              }`}
               onChange={handleChange}
               value={formik.values?.size}
             >
@@ -163,7 +134,12 @@ const SkuCreate = ({ params: { specie_id } }) => {
             </div>
             <select
               name="sex"
-              className="select select-bordered w-full max-w-xs"
+              className={`select select-bordered w-full max-w-xs
+              ${
+                formik.errors.sex
+                  ? "border border-red-400 focus:border-red-400"
+                  : ""
+              }`}
               onChange={handleChange}
               value={formik.values?.sex}
             >
@@ -189,36 +165,6 @@ const SkuCreate = ({ params: { specie_id } }) => {
             handleChange={handleChange}
           />
         ))}
-          
-          {/* PRICE */}
-          {/* <label className="form-control w-full max-w-xs">
-            <div className="label">
-              <span className="label-text font-sans">Price</span>
-            </div>
-            <input
-              type="text"
-              name="price"
-              id="price"
-              className="input input-bordered w-full max-w-xs"
-              onChange={handleChange}
-              value={formik.values.price}
-            ></input>
-          </label> */}
-
-          {/* QUANTITY */}
-          {/* <label className="form-control w-full max-w-xs">
-            <div className="label">
-              <span className="label-text font-sans">Quantity</span>
-            </div>
-            <input
-              type="text"
-              name="quantity"
-              id="quantity"
-              className="input input-bordered w-full max-w-xs"
-              onChange={handleChange}
-              value={formik.values?.quantity}
-            ></input>
-          </label> */}
         </div>
 
         {/* BUTTONS */}

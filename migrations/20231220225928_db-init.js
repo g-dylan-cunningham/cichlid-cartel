@@ -51,8 +51,8 @@ exports.up = function(knex) {
       //   .inTable('skus');
       table.string("key")
       table.string("url")
-      table.string("thumbnail_id")
-      table.string("full_image_id")
+      table.string("thumbnail_url")
+      table.string("full_image_url")
       table.timestamp('created_at').defaultTo(knex.fn.now()).index();
       table.timestamp('updated_at').defaultTo(knex.fn.now());
     });

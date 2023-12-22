@@ -1,13 +1,43 @@
 import React, { useState, useEffect } from "react";
+import Image from 'next/image'
 import ImageUpload from "@/app/components/imageUpload";
 import Modal from "@/app/components/Modal";
 import { Button } from "@/app/components/forms";
 
+
+const ImageDetailModal = ({
+  setShowSelectedImgModal,
+  heading, subheading,
+  src
+}) => {
+  return (
+    <Modal
+      setShowModal={setShowSelectedImgModal}
+      heading={heading}
+      subheading={subheading}
+    >
+      <Image
+        style={{objectFit: "contain"}}
+        src={src}
+        width={800}
+        height={800}
+      />
+    </Modal>
+  )
+}
+
 const ImageSide = ({ specie, isEditable, showModal, setShowModal }) => {
   const [associatedImgs, setAssociatedImgs] = useState([]);
   const [imgsLoading, setImgsLoading] = useState(false);
-  // const [showModal, setShowModal] = useState(false);
-  console.log('associatedimgs.', associatedImgs)
+  const [showSelectedImgModal, setShowSelectedImgModal] = useState(false);
+  const [selectedImgData, setSelectedImgData] = useState('');
+
+
+  const handleThumbnailClick = (img) => {
+    setSelectedImgData(img);
+    setShowSelectedImgModal(true);
+  }
+
   useEffect(() => {
     setImgsLoading(true);
     fetch(
@@ -26,6 +56,15 @@ const ImageSide = ({ specie, isEditable, showModal, setShowModal }) => {
   }, [specie.specie_id]);
 
   const handleDeleteImg = async (e, img) => {
+    console.log('key', img)
+    // paragraph.replace("Ruth's", 'my')
+
+    // create two keys so we can delete both thumbnail and main.
+    const imagesToBeDeleted = [
+      { key: img.key, image_id: img.image_id }, // thumbnail
+      { image_id: img.full_image_key, key: img.key.replace("/thumbnail/", "/full/")}, // full image
+    ]
+
     e.preventDefault();
     const response = await fetch(
       process.env.NEXT_PUBLIC_BASE_URL + "/api/images",
@@ -35,8 +74,7 @@ const ImageSide = ({ specie, isEditable, showModal, setShowModal }) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          key: img.key,
-          image_id: img.image_id,
+          imagesToBeDeleted
         }),
       }
     );
@@ -63,6 +101,13 @@ const ImageSide = ({ specie, isEditable, showModal, setShowModal }) => {
 
   return (
     <div>
+      {showSelectedImgModal && (
+        <ImageDetailModal
+          setShowSelectedImgModal={setShowSelectedImgModal}
+        // heading, subheading,
+          src={selectedImgData.full_image_url}
+        />
+      )}
       {showModal && (
         <Modal
           setShowModal={setShowModal}
@@ -97,8 +142,8 @@ const ImageSide = ({ specie, isEditable, showModal, setShowModal }) => {
                   key={img.image_id}
                 >
                   <DeleteIcon img={img} handleDeleteImg={handleDeleteImg}/>
-                  <img
-                    className=""
+                  <Image
+                    onClick={() => handleThumbnailClick(img)}
                     style={{
                       borderRadius: "10px",
                       maxHeight: "100%",
@@ -106,7 +151,9 @@ const ImageSide = ({ specie, isEditable, showModal, setShowModal }) => {
                       objectFit: "cover",
                       verticalAlign: "bottom",
                     }}
-                    src={img.url}
+                    src={img.thumbnail_url}
+                    height={100}
+                    width={100}
                   />
                 </div>
               );

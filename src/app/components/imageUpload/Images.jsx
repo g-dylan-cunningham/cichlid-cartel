@@ -9,9 +9,6 @@ const ImageUpload = ({ specie, associatedImgs, setAssociatedImgs, setShowModal }
   const [thumbnailFile, setThumbnailFile] = useState(null);
   const [fileLink, setFileLink] = useState(null);
   const [uploading, setUploading] = useState(false);
-
-
-
   
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,14 +18,25 @@ const ImageUpload = ({ specie, associatedImgs, setAssociatedImgs, setShowModal }
     }
     setUploading(true);
     // console.log('file', file)
-
+    let matchingFullImageKey = ""; // process full image before thumbnail and save to key to the thumbnail image model. This is useful for deleting. 
 
 
     const uploadImageToAws = async (file, isThumbnail=false) => {
-      const namespaceSegment = process.env.NEXT_PUBLIC_S3_FOLDER;
-      const speciesSegment = `${specie.specie_id}/`;
-      const typeSegment = isThumbnail ? 'thumbnail/' : 'full/';
-      const imgPath = namespaceSegment + speciesSegment + typeSegment + file.name;
+      
+      const getImageUrls = ({isThumbnail}) => {
+        const s3Domain = "https://cichlid-cartel.s3.us-west-1.amazonaws.com/";
+        const namespaceSegment = process.env.NEXT_PUBLIC_S3_FOLDER;
+        const speciesSegment = `${specie.specie_id}/`;
+        const typeSegment = isThumbnail ? 'thumbnail/' : 'full/';
+        const path = namespaceSegment + speciesSegment + typeSegment + file.name;
+        
+        return {
+          path,
+          url: s3Domain + path,
+        }
+
+      }
+
       // https://cichlid-cartel.s3.us-west-1.amazonaws.com/cichlid-cartel/clqeem8js0000g7us2ln2cp5m/thumbnail/eyebiter1.png
       const response = await fetch(
         process.env.NEXT_PUBLIC_BASE_URL + "/api/aws",
@@ -38,7 +46,7 @@ const ImageUpload = ({ specie, associatedImgs, setAssociatedImgs, setShowModal }
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            filename: imgPath,
+            key: getImageUrls({isThumbnail}).path,
             contentType: file.type,
             // specie_id: specie.specie_id,
           }),
@@ -68,29 +76,40 @@ const ImageUpload = ({ specie, associatedImgs, setAssociatedImgs, setShowModal }
             } else if (associatedImgs?.length === 1) {
               is_secondary = true;
             }
+            console.log('posting matchingFullImageKey', matchingFullImageKey)
             const prismaResp = await fetch('/api/images', {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
               },
               body: JSON.stringify({
-                filename: file.name,
+                // filename: file.name,
                 contentType: file.type,
                 specie_id: specie.specie_id,
                 fields,
                 url,
                 is_primary,
-                is_secondary
+                is_secondary,
+                is_thumbnail: isThumbnail,
+                thumbnail_url: getImageUrls({isThumbnail:true}).url,
+                full_image_url: getImageUrls({isThumbnail:false}).url,
+                full_image_key: matchingFullImageKey
               }),
             })
   
             const newImagePrisma = await prismaResp.json();
+            if (!isThumbnail) {
+              matchingFullImageKey = newImagePrisma.image_id;
+            }
   
             setFileLink(null);
             setFile(null);
-            const newAssociatedImages = [...associatedImgs, {...newImagePrisma}];
-            setAssociatedImgs(newAssociatedImages);
-            setShowModal(false);
+            if (isThumbnail) {
+              const newAssociatedImages = [...associatedImgs, {...newImagePrisma}];
+              setAssociatedImgs(newAssociatedImages);
+              setShowModal(false);
+            }
+            
   
             e.target.reset();
             return;
@@ -106,7 +125,8 @@ const ImageUpload = ({ specie, associatedImgs, setAssociatedImgs, setShowModal }
       }
     }
 
-    await uploadImageToAws(file)
+    await uploadImageToAws(file, false);
+
     await uploadImageToAws(thumbnailFile, true)
     
     setUploading(false);
@@ -120,8 +140,8 @@ const ImageUpload = ({ specie, associatedImgs, setAssociatedImgs, setShowModal }
       return new Promise((resolve) => {
         Resizer.imageFileResizer(
           file,
-          200,
-          200,
+          100,
+          100,
           "png",
           10,
           0,

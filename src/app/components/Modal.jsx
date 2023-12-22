@@ -31,7 +31,7 @@ const Modal = ({ setShowModal, heading, subheading, children }) => {
                 </button>
               </div>
               {/*body*/}
-              <div className="relative p-6 flex-auto w-10/12">{children}</div>
+              <div className="relative p-6 flex-auto">{children}</div>
 
               {/*footer*/}
               {/* <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
