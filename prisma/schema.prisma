@@ -1,0 +1,105 @@
+generator client {
+  provider = "prisma-client-js"
+  // previewFeatures = ["jsonProtocol"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model Species {
+  specie_id       String   @id @default(cuid())
+  region          String
+  subgroup        String
+  common_name     String
+  scientific_name String
+  description     String
+  created_at      DateTime @default(now())
+  updated_at      DateTime @updatedAt
+  skus            Sku[]
+  images          Images[]
+
+  @@map("species")
+}
+
+model Sku {
+  sku_id       String   @id @default(cuid())
+  specie_id    String
+  species      Species  @relation(fields: [specie_id], references: [specie_id])
+  size         Size     @default(M)
+  price        String
+  sex          Sex      @default(UNSEXED)
+  quantity     Int      @default(1)
+  is_available Boolean  @default(false)
+  is_oos       Boolean  @default(false)
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+
+  @@map("skus")
+}
+
+enum Size {
+  XXS
+  XS
+  S
+  M
+  L
+  XL
+  XXL
+  XXXL
+  VARIETY
+}
+
+enum Sex {
+  MALE
+  FEMALE
+  UNSEXED
+  BREEDINGGROUP
+}
+
+model Images {
+  image_id      String   @id @default(cuid())
+  species       Species  @relation(fields: [specie_id], references: [specie_id])
+  specie_id     String
+  // skus       Sku?      @relation(fields: [sku_id], references: [sku_id])
+  // sku_id     String?
+  is_primary    Boolean  @default(false)
+  is_secondary  Boolean  @default(false)
+  key           String
+  url           String
+  thumbnail_id  String?
+  full_image_id String?
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+
+  @@map("images")
+}
+
+// model Vendor {
+//   vendor_id      String   @id @default(cuid())
+//   store_name     String
+//   key           String
+//   url           String
+//   thumbnail_id  String?
+//   full_image_id String?
+//   created_at    DateTime @default(now())
+//   updated_at    DateTime @updatedAt
+
+//   @@map("vendors")
+// }
+
+// - After making changes:
+
+// run db:migrate?
+
+// LATEST
+// prisma generate
+// // manually delete tables
+// prisma db push
+// knex seed:run
+
+
+
+

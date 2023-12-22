@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: webapp_dev
+      POSTGRES_HOST_AUTH_METHOD: trust
+
+
+# run `docker compose up` to start
+# brew services start postgresql
+# brew services stop postgresql
+# lsof -i :5432
+# kill -9 <pid>

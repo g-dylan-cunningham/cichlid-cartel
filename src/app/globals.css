@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap"); */
 
 :root {
   --foreground-rgb: 0, 0, 0;
@@ -18,10 +19,68 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
+  /* background: linear-gradient(
       to bottom,
       transparent,
       rgb(var(--background-end-rgb))
     )
-    rgb(var(--background-start-rgb));
+    rgb(var(--background-start-rgb)); */
+}
+
+/* span {
+  font-family: sans-serif;
+} */
+/* h1, h2, h3, h4, h5, h6 {
+  font-family: "Roboto"
+} */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+menu,
+ol,
+ul {
+    padding-left: 0;
+}
+
+
+a {
+  /* Places underlines below the descenders */
+  text-underline-position: under;
+
+
+  /* Sets the thickness as a percentage of the font size */
+  text-decoration-thickness: 8;
+}
+
+
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+        scroll-behavior: smooth;
+  }
+}
+
+label,
+button,
+select,
+summary,
+[type=radio],
+[type=submit],
+[type=checkbox] {
+    cursor: pointer;
+}
+
+:root {
+  /* color-scheme: light dark; both supported */
+}
+
+textarea:disabled {
+  color: rgb(170, 170, 170)
+}
+textarea {
+  font-size: 1rem!important;
 }
