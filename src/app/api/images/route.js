@@ -21,7 +21,6 @@ export async function GET(request, res) {
 
 export async function DELETE(req, res) {
   const deleteImageAwsAndPrisma = async (img) => {
-    console.log('DELETEEEEEEEEEE', img)
     try {
       // const client = new S3Client({ region: process.env.AWS_REGION }) // this line alone works if deployed on vercel. Check env var name
       const client = new S3Client({ // full params are needed for non vercel deployment
@@ -37,7 +36,7 @@ export async function DELETE(req, res) {
       awsResponse = await client.send(command);
       // console.log("awsResponse", awsResponse);
     } catch (e) {
-      console.log("e", e);
+      console.error("e", e);
     } finally {
       try {
         deletedImage = await prisma.images.delete({
@@ -45,7 +44,6 @@ export async function DELETE(req, res) {
             image_id: img.image_id,
           },
         });
-        console.log("deletedImage", deletedImage);
         return deletedImage;
       } catch (e) {
         throw e;
@@ -57,7 +55,6 @@ export async function DELETE(req, res) {
   let deletedImage = {};
   let awsResponse;
 
-console.log("PROMISE ALLLLLL")
   Promise.all(imagesToBeDeleted.map(img => deleteImageAwsAndPrisma(img))).then(data => {
     console.log('data returned', data)
   })
@@ -94,7 +91,7 @@ export async function POST(req) {
       });
       return Response.json({ ...newPrismaImage });
     } catch (e) {
-      console.log("eeee", e);
+      console.error(e);
     }
 }
 

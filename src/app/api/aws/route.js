@@ -36,7 +36,7 @@ export async function POST(request) {
 
     return Response.json({ url, fields });
   } catch (error) {
-    console.log("errrorrororrr", error);
+    console.error(error);
     var errorMessage;
     if (error instanceof Error) {
       errorMessage = error.message;

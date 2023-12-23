@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Image from 'next/image'
+import Link from 'next/link'
 import ImageUpload from "@/app/components/imageUpload";
 import Modal from "@/app/components/Modal";
 import { Button } from "@/app/components/forms";
@@ -48,7 +49,6 @@ const ImageSide = ({ specie, isEditable, showModal, setShowModal }) => {
     )
       .then((res) => res.json())
       .then((data) => {
-        console.log("data", data);
         setAssociatedImgs(data);
         setImgsLoading(false);
       })
@@ -56,8 +56,6 @@ const ImageSide = ({ specie, isEditable, showModal, setShowModal }) => {
   }, [specie.specie_id]);
 
   const handleDeleteImg = async (e, img) => {
-    console.log('key', img)
-    // paragraph.replace("Ruth's", 'my')
 
     // create two keys so we can delete both thumbnail and main.
     const imagesToBeDeleted = [
@@ -80,12 +78,9 @@ const ImageSide = ({ specie, isEditable, showModal, setShowModal }) => {
     );
 
     if (response.ok) {
-      console.log("response ok", response);
       const newAssociatedImages = associatedImgs.filter((elem) => {
-        console.log(elem, img);
         return elem.image_id !== img.image_id;
       });
-      console.log("newassociimag", newAssociatedImages);
       setAssociatedImgs(newAssociatedImages);
     } else {
       console.log("response error", response);
@@ -101,6 +96,9 @@ const ImageSide = ({ specie, isEditable, showModal, setShowModal }) => {
 
   return (
     <div>
+      <Link href={`/admin`} className="link link-primary">
+        Dashboard
+      </Link>
       {showSelectedImgModal && (
         <ImageDetailModal
           setShowSelectedImgModal={setShowSelectedImgModal}

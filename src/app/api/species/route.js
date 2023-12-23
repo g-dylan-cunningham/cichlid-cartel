@@ -19,7 +19,6 @@ export async function GET(request) { // get single species
   // consulta a base de datos
   // const body = await request.json();
   const specie_id = request.nextUrl.searchParams.get(["specie_id"]);
-  console.log('specieid', specie_id)
 
   const specie = await prisma.species.findUnique({
     where: {
@@ -27,14 +26,12 @@ export async function GET(request) { // get single species
     },
     include: { skus: true },
   });
-console.log('NextResponse.json(specie)', NextResponse.json(specie))
   return NextResponse.json(specie);
 }
 
 export async function PATCH(request) { // update single species
   // consulta a base de datos
   const body = await request.json();
-  console.log('vody', body)
   const specie = await prisma.species.update({
     where: {
       specie_id: body.specie_id,
@@ -45,7 +42,6 @@ export async function PATCH(request) { // update single species
       description: body.description
     },
   });
-console.log('specie', specie)
   return NextResponse.json(specie);
 }
 

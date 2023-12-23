@@ -17,7 +17,6 @@ export default async function Admin() {
       },
     },
   });
-  console.log("SPECIESSSss", species[0].images[0].thumbnail_url);
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <h1 className="text-xl">Cichlid Cartel Store:</h1>

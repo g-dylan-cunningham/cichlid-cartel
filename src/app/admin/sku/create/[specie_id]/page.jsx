@@ -7,7 +7,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import { enumArr, enumMap } from '@/app/config';
 import Input from "@/app/components/forms/Input";
-import formValidation from "./formValidation";
+import formValidation from "../../formValidation";
 
 const SkuCreate = ({ params: { specie_id } }) => {
   const [isSpecieLoading, setIsSpecieLoading] = useState(false);
@@ -25,7 +25,6 @@ const SkuCreate = ({ params: { specie_id } }) => {
     )
       .then((res) => res.json())
       .then((data) => {
-        console.log("data", data);
         setSpecie(data);
         setIsSpecieLoading(false);
       })

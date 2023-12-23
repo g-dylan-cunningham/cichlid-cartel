@@ -17,7 +17,6 @@ const ImageUpload = ({ specie, associatedImgs, setAssociatedImgs, setShowModal }
       return;
     }
     setUploading(true);
-    // console.log('file', file)
     let matchingFullImageKey = ""; // process full image before thumbnail and save to key to the thumbnail image model. This is useful for deleting. 
 
 
@@ -76,7 +75,6 @@ const ImageUpload = ({ specie, associatedImgs, setAssociatedImgs, setShowModal }
             } else if (associatedImgs?.length === 1) {
               is_secondary = true;
             }
-            console.log('posting matchingFullImageKey', matchingFullImageKey)
             const prismaResp = await fetch('/api/images', {
               method: "POST",
               headers: {
