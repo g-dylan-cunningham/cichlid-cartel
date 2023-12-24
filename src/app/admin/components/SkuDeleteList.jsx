@@ -1,17 +1,16 @@
-import React from 'react'
-import Link from 'next/link'
-import { deleteSku } from "@/modules/prisma/actions";
+import React from 'react';
+import Link from 'next/link';
+import { deleteSku } from '@/modules/prisma/actions';
 
-const SkuDeleteList = ({specie}) => {
-
-  const deleteSkuWithSpeciesId = deleteSku.bind(null, specie.specie_id)
+const SkuDeleteList = ({ specie }) => {
+  const deleteSkuWithSpeciesId = deleteSku.bind(null, specie.specie_id);
   return (
     <div>
       {specie?.skus?.length > 0 && (
-        <div className="block mt-8 flex-col items-center justify-between">
+        <div className='mt-8 block flex-col items-center justify-between'>
           <form action={deleteSkuWithSpeciesId}>
-            <div className="overflow-x-auto">
-              <table className="table">
+            <div className='overflow-x-auto'>
+              <table className='table'>
                 {/* head */}
                 <thead>
                   <tr>
@@ -29,14 +28,20 @@ const SkuDeleteList = ({specie}) => {
                 <tbody>
                   {specie.skus.map((sku) => (
                     <tr key={sku.sku_id}>
-
                       {/* Edit Button */}
                       <td>
-                        <Link href={`/admin/sku/${sku.sku_id}`} className='btn btn-outline btn-primary'>Edit</Link>
+                        <Link
+                          href={`/admin/sku/${sku.sku_id}`}
+                          className='btn btn-outline btn-primary'
+                        >
+                          Edit
+                        </Link>
                       </td>
 
                       {/* Species */}
-                      <td>{specie.common_name} / {specie.scientific_name_name}</td>
+                      <td>
+                        {specie.common_name} / {specie.scientific_name_name}
+                      </td>
 
                       {/* Size */}
                       <td>{sku.size}</td>
@@ -53,7 +58,13 @@ const SkuDeleteList = ({specie}) => {
                       {/* actions */}
                       <td>
                         {/* <input type="checkbox" name={sku.sku_id} value={sku.sku_id} /> */}
-                        <button className="btn btn-error" type="submit" action={sku.sku_id} name="sku_id" value={sku.sku_id}>
+                        <button
+                          className='btn btn-error'
+                          type='submit'
+                          action={sku.sku_id}
+                          name='sku_id'
+                          value={sku.sku_id}
+                        >
                           Delete Sku
                         </button>
                       </td>
@@ -66,7 +77,7 @@ const SkuDeleteList = ({specie}) => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default SkuDeleteList
+export default SkuDeleteList;

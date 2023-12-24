@@ -1,12 +1,13 @@
-import prisma from "@/modules/prisma";
-import { revalidatePath } from "next/cache";
-import { NextResponse } from "next/server";
-import { updateSku } from "@/modules/prisma/actions";
+import prisma from '@/modules/prisma';
+import { revalidatePath } from 'next/cache';
+import { NextResponse } from 'next/server';
+import { updateSku } from '@/modules/prisma/actions';
 
-export async function GET(request) { // get single species
+export async function GET(request) {
+  // get single species
   // consulta a base de datos
   // const body = await request.json();
-  const sku_id = request.nextUrl.searchParams.get(["sku_id"]);
+  const sku_id = request.nextUrl.searchParams.get(['sku_id']);
 
   const sku = await prisma.sku.findUnique({
     where: {
@@ -19,52 +20,46 @@ export async function GET(request) { // get single species
 
 export async function POST(request) {
   const body = await request.json();
-  const {
-    specie_id,    
-    size,        
-    price,
-    sex,
-    quantity, 
-  } = body;
+  const { specie_id, size, price, sex, quantity } = body;
 
-  console.log('sKJUSSSUUUUU', typeof quantity, typeof price)
+  console.log('sKJUSSSUUUUU', typeof quantity, typeof price);
 
   const normalizePrice = (str) => {
     if (typeof str !== 'string') {
       throw new Error('not a string');
-    };
+    }
     const arr = str.split('.');
-  
-    for (let i =0; i < arr.length; i++) {
-      const elem = arr[i]
-      const isNumeric = !!parseInt(elem, 10)
+
+    for (let i = 0; i < arr.length; i++) {
+      const elem = arr[i];
+      const isNumeric = !!parseInt(elem, 10);
       if (!isNumeric) {
-        throw new Error('non numeric input')
+        throw new Error('non numeric input');
       }
     }
     if (arr.length > 2) {
       throw new Error('too many dots');
     }
-  
+
     if (arr[1] && arr[1].length === 2) {
       return str;
     }
-      if (arr[1] && arr[1].length === 1) {
+    if (arr[1] && arr[1].length === 1) {
       return str + 0;
     }
     if (arr.length === 1) {
-      return arr[0] + ".00";
+      return arr[0] + '.00';
     }
-  }
+  };
 
   const sku = await prisma.sku.create({
     data: {
-      specie_id,    
-      size,        
+      specie_id,
+      size,
       price: normalizePrice(price),
       sex,
-      quantity: parseInt(quantity, 10), 
-    }
+      quantity: parseInt(quantity, 10),
+    },
   });
 
   return NextResponse.json(sku);
@@ -72,21 +67,14 @@ export async function POST(request) {
 
 export async function PATCH(request) {
   const body = await request.json();
-  const {
-    sku_id,
-    specie_id,    
-    size,        
-    price,
-    sex,
-    quantity, 
-  } = body;
+  const { sku_id, specie_id, size, price, sex, quantity } = body;
 
   const sku = await updateSku({
-    sku_id,    
-    size,        
+    sku_id,
+    size,
     price,
     sex,
-    quantity, 
-  })
+    quantity,
+  });
   return NextResponse.json(sku);
 }

@@ -1,13 +1,9 @@
-import { createPresignedPost } from "@aws-sdk/s3-presigned-post";
-import { S3Client } from "@aws-sdk/client-s3";
-import prisma from "@/modules/prisma";
-
+import { createPresignedPost } from '@aws-sdk/s3-presigned-post';
+import { S3Client } from '@aws-sdk/client-s3';
+import prisma from '@/modules/prisma';
 
 export async function POST(request) {
-  const {
-    key,
-    contentType,
-  } = await request.json();
+  const { key, contentType } = await request.json();
 
   try {
     // const client = new S3Client({ region: process.env.AWS_REGION }) // this line alone works if deployed on vercel. Check env var name
@@ -23,16 +19,15 @@ export async function POST(request) {
       Bucket: process.env.AWS_BUCKET_NAME,
       Key: `${key}`,
       Conditions: [
-        ["content-length-range", 0, 1048576*3], // up to 3 MB
-        ["starts-with", "$Content-Type", contentType],
+        ['content-length-range', 0, 1048576 * 3], // up to 3 MB
+        ['starts-with', '$Content-Type', contentType],
       ],
       Fields: {
-        acl: "public-read",
-        "Content-Type": contentType,
+        acl: 'public-read',
+        'Content-Type': contentType,
       },
       Expires: 600, // Seconds before the presigned post expires. 3600 by default.
     });
-    
 
     return Response.json({ url, fields });
   } catch (error) {
@@ -44,13 +39,6 @@ export async function POST(request) {
     return Response.json({ error: errorMessage });
   }
 }
-
-
-
-
-
-
-
 
 // NOT USED \/
 // import { NextRequest, NextResponse } from 'next/server';

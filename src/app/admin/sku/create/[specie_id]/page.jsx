@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import React, { useEffect, useState } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useFormik } from "formik";
-import * as yup from "yup";
-import { enumArr, enumMap } from "@/app/config";
-import { Field } from "@/app/components/forms";
-import formValidation from "../../formValidation";
+import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
+import { enumArr, enumMap } from '@/app/config';
+import { Field } from '@/app/components/forms';
+import formValidation from '../../formValidation';
 
 const SkuCreate = ({ params: { specie_id } }) => {
   const [isSpecieLoading, setIsSpecieLoading] = useState(false);
@@ -18,7 +18,7 @@ const SkuCreate = ({ params: { specie_id } }) => {
   useEffect(() => {
     setIsSpecieLoading(true);
     fetch(
-      "/api/species?" +
+      '/api/species?' +
         new URLSearchParams({
           specie_id,
         })
@@ -37,10 +37,10 @@ const SkuCreate = ({ params: { specie_id } }) => {
   const handleSkuCreate = async (values) => {
     const payload = { ...values, specie_id };
     setIsSkuLoading(true);
-    const res = await fetch("/api/skus", {
-      method: "POST",
+    const res = await fetch('/api/skus', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(payload),
     })
@@ -61,10 +61,10 @@ const SkuCreate = ({ params: { specie_id } }) => {
   const formik = useFormik({
     enableReinitialize: true, // need this to take latest values
     initialValues: {
-      size: "default",
-      sex: "default",
-      price: "",
-      quantity: "",
+      size: 'default',
+      sex: 'default',
+      price: '',
+      quantity: '',
     },
     onSubmit: handleSkuCreate,
     validate: formValidation,
@@ -72,10 +72,10 @@ const SkuCreate = ({ params: { specie_id } }) => {
 
   const handleChange = (e) => {
     const { target } = e;
-    if (target.name === "price") {
+    if (target.name === 'price') {
       formik.setFieldValue(
         target.name,
-        target.value.replace(/[^0-9\.\$]/g, "")
+        target.value.replace(/[^0-9\.\$]/g, '')
       );
     } else {
       formik.setFieldValue(target.name, target.value);
@@ -88,37 +88,37 @@ const SkuCreate = ({ params: { specie_id } }) => {
 
   const fields = [
     {
-      component: "Select",
-      label: "Size",
-      name: "size",
+      component: 'Select',
+      label: 'Size',
+      name: 'size',
       list: sizeList,
       map: sizeMap,
     },
     {
-      component: "Select",
-      label: "Sex",
-      name: "sex",
+      component: 'Select',
+      label: 'Sex',
+      name: 'sex',
       list: sexList,
       map: sexMap,
     },
     {
-      component: "Input",
-      label: "Price (ex. 99.99)",
-      type: "text",
-      name: "price",
+      component: 'Input',
+      label: 'Price (ex. 99.99)',
+      type: 'text',
+      name: 'price',
     },
-    { component: "Input", label: "Quantity", type: "number", name: "quantity" },
+    { component: 'Input', label: 'Quantity', type: 'number', name: 'quantity' },
   ];
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1 className="font-bold text-2xl capitalize">Create Sku: </h1>
-      <h1 className="font-bold text-l">{specie.common_name}</h1>
-      <h2 className="font-bold text-lg opacity-50">{specie.scientific_name}</h2>
+    <main className='flex min-h-screen flex-col items-center justify-between p-24'>
+      <h1 className='text-2xl font-bold capitalize'>Create Sku: </h1>
+      <h1 className='text-l font-bold'>{specie.common_name}</h1>
+      <h2 className='text-lg font-bold opacity-50'>{specie.scientific_name}</h2>
 
       <form
         onSubmit={formik.handleSubmit}
-        className="justify-between flex flex-col"
+        className='flex flex-col justify-between'
       >
         {fields.map((item, i) => (
           <Field
@@ -130,15 +130,15 @@ const SkuCreate = ({ params: { specie_id } }) => {
         ))}
 
         {/* BUTTONS */}
-        <div className="flex flex-row justify-between mt-5">
+        <div className='mt-5 flex flex-row justify-between'>
           <Link
             href={`/admin/species/${specie.specie_id}`}
-            className="btn btn-outline btn-secondary"
+            className='btn btn-outline btn-secondary'
           >
             Cancel
           </Link>
 
-          <button type="submit" className="btn btn-active btn-primary">
+          <button type='submit' className='btn btn-primary btn-active'>
             Save
           </button>
         </div>

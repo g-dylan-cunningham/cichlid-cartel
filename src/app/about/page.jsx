@@ -1,19 +1,18 @@
-import React from "react";
-import { createBlurb } from "@/modules/prisma/actions";
+import React from 'react';
+import { createBlurb } from '@/modules/prisma/actions';
 
 const About = async () => {
-
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <main className='flex min-h-screen flex-col items-center justify-between p-24'>
       <form action={createBlurb}>
-        <label className="form-control">
-          <div className="label">
-            <span className="label-text">Blurb</span>
+        <label className='form-control'>
+          <div className='label'>
+            <span className='label-text'>Blurb</span>
           </div>
           <textarea
-            className="textarea textarea-bordered h-24"
-            placeholder="Bio"
-            name="blurb"
+            className='textarea textarea-bordered h-24'
+            placeholder='Bio'
+            name='blurb'
           ></textarea>
         </label>
       </form>

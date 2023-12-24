@@ -1,31 +1,31 @@
-import prisma from "@/modules/prisma";
-import Link from "next/link";
-import Image from "next/image";
+import prisma from '@/modules/prisma';
+import Link from 'next/link';
+import Image from 'next/image';
 
 export default async function Admin() {
   const species = await prisma.species.findMany({
-    orderBy: { created_at: "desc" },
+    orderBy: { created_at: 'desc' },
     include: {
       skus: {
-        orderBy: { created_at: "desc" },
+        orderBy: { created_at: 'desc' },
       },
       images: {
         where: {
           is_primary: true,
-          is_thumbnail: true
+          is_thumbnail: true,
         },
       },
     },
   });
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1 className="text-xl">Cichlid Cartel Store:</h1>
+    <main className='flex min-h-screen flex-col items-center justify-between p-24'>
+      <h1 className='text-xl'>Cichlid Cartel Store:</h1>
 
-      <div className="overflow-x-auto">
-        <table className="table table-xs table-pin-rows table-pin-cols">
+      <div className='overflow-x-auto'>
+        <table className='table table-pin-rows table-pin-cols table-xs'>
           {/* head */}
           <thead>
-            <tr className="m-6">
+            <tr className='m-6'>
               <th>
                 <label>EDIT</label>
               </th>
@@ -45,54 +45,53 @@ export default async function Admin() {
                 <td>
                   <Link
                     href={`/admin/species/${specie.specie_id}`}
-                    className="link link-primary"
+                    className='link link-primary'
                   >
                     Edit
                   </Link>
                 </td>
                 <td>
-                  <div className="flex items-center gap-3">
-                    <div className="avatar">
-                      <div className="mask mask-squircle w-12 h-12">
-                      
+                  <div className='flex items-center gap-3'>
+                    <div className='avatar'>
+                      <div className='mask mask-squircle h-12 w-12'>
                         <Image
                           src={specie.images[0]?.thumbnail_url}
-                          alt=""
+                          alt=''
                           width={30}
                           height={30}
                         />
                       </div>
                     </div>
                     <div>
-                      <div className="font-bold">{specie.common_name}</div>
-                      <div className="text-sm opacity-50">
+                      <div className='font-bold'>{specie.common_name}</div>
+                      <div className='text-sm opacity-50'>
                         {specie.scientific_name}
                       </div>
                     </div>
                   </div>
                 </td>
 
-                <td style={{ maxWidth: '10vw'}}>{specie.description}</td>
+                <td style={{ maxWidth: '10vw' }}>{specie.description}</td>
                 <td>
-                  <TableElement specie={specie} property="size" />
+                  <TableElement specie={specie} property='size' />
                 </td>
                 <td>
-                  <TableElement specie={specie} property="price" />
+                  <TableElement specie={specie} property='price' />
                 </td>
                 <td>
-                  <TableElement specie={specie} property="sex" />
+                  <TableElement specie={specie} property='sex' />
                 </td>
                 <td>
-                  <TableElement specie={specie} property="quantity" />
+                  <TableElement specie={specie} property='quantity' />
                 </td>
                 <td>
                   <Link
                     href={`/admin/sku//create/${specie.specie_id}`}
-                    className="badge badge-accent badge-sm block"
+                    className='badge badge-accent badge-sm block'
                   >
                     Add New
-                  </Link>{" "}
-                  <div className="badge badge-warning badge-sm block mt-2">
+                  </Link>{' '}
+                  <div className='badge badge-warning badge-sm mt-2 block'>
                     Delete Sku
                   </div>
                 </td>
@@ -104,7 +103,7 @@ export default async function Admin() {
               <td>
                 <Link
                   href={`/admin/species/create`}
-                  className="link link-primary"
+                  className='link link-primary'
                 >
                   Create Species
                 </Link>
@@ -114,7 +113,7 @@ export default async function Admin() {
         </table>
       </div>
 
-      <div className="divider m-12"></div>
+      <div className='divider m-12'></div>
     </main>
   );
 }
@@ -127,7 +126,7 @@ const TableElement = ({ specie, property }) => {
           <li key={sku.sku_id}>
             <Link
               href={`/admin/sku/${sku.sku_id}`}
-              className="badge badge-ghost badge-sm"
+              className='badge badge-ghost badge-sm'
             >
               {sku[property]}
             </Link>

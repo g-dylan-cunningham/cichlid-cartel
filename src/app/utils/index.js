@@ -1,5 +1,3 @@
-import { countDecimals } from "./utils";
+import { countDecimals } from './utils';
 
-export {
-  countDecimals,
-}
+export { countDecimals };

@@ -6,8 +6,6 @@ services:
     environment:
       POSTGRES_DB: webapp_dev
       POSTGRES_HOST_AUTH_METHOD: trust
-
-
 # run `docker compose up` to start
 # brew services start postgresql
 # brew services stop postgresql

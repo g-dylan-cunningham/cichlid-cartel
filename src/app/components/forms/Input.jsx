@@ -1,5 +1,5 @@
-import React from "react";
-import InputWrapper from "./InputWrapper";
+import React from 'react';
+import InputWrapper from './InputWrapper';
 
 const Input = ({ item, formik, handleChange, children }) => {
   const { name, type, label, ...rest } = item;
@@ -15,8 +15,8 @@ const Input = ({ item, formik, handleChange, children }) => {
         className={`input input-bordered w-full
         ${
           formik.errors[name]
-            ? "border border-red-400 focus:border-red-400"
-            : ""
+            ? 'border border-red-400 focus:border-red-400'
+            : ''
         }`}
         {...rest}
       />

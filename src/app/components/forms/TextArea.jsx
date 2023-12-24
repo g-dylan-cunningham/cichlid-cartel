@@ -1,5 +1,5 @@
-import React from "react";
-import InputWrapper from "./InputWrapper";
+import React from 'react';
+import InputWrapper from './InputWrapper';
 
 const TextArea = ({ item, formik, handleChange, children }) => {
   const { name, type, label, ...rest } = item;
@@ -15,8 +15,8 @@ const TextArea = ({ item, formik, handleChange, children }) => {
         className={`textarea textarea-bordered
         ${
           formik.errors[name]
-            ? "border border-red-400 focus:border-red-400"
-            : ""
+            ? 'border border-red-400 focus:border-red-400'
+            : ''
         }`}
         {...rest}
       />

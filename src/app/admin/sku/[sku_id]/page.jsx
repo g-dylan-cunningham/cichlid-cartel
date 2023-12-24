@@ -1,24 +1,24 @@
-'use client'
+'use client';
 
-import React, { useEffect, useState } from "react";
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { useFormik } from "formik";
-import * as yup from "yup";
+import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
 import { enumArr, enumMap } from '@/app/config';
-import { Field } from "@/app/components/forms";
-import formValidation from "../formValidation";
+import { Field } from '@/app/components/forms';
+import formValidation from '../formValidation';
 
 const SkuCreate = ({ params: { sku_id } }) => {
   const [isSpecieLoading, setIsSpecieLoading] = useState(false);
   const [isSkuLoading, setIsSkuLoading] = useState(false);
   const [sku, setSku] = useState({});
-  const router = useRouter()
+  const router = useRouter();
 
   useEffect(() => {
     setIsSkuLoading(true);
     fetch(
-      "/api/skus?" +
+      '/api/skus?' +
         new URLSearchParams({
           sku_id,
         })
@@ -35,34 +35,42 @@ const SkuCreate = ({ params: { sku_id } }) => {
   }, [sku_id]);
 
   const handleSkuUpdate = async (values) => {
-    const payload = { ...values, sku_id: sku.sku_id,specie_id: sku.species.specie_id };
+    const payload = {
+      ...values,
+      sku_id: sku.sku_id,
+      specie_id: sku.species.specie_id,
+    };
     setIsSkuLoading(true);
     const res = await fetch('/api/skus', {
-      method: "PATCH",
+      method: 'PATCH',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(payload),
     })
       .then((res) => res.json())
       .then((data) => {
         setIsSkuLoading(false);
-        router.push(`/admin/species/${specie_id}`)
+        router.push(`/admin/species/${specie_id}`);
       })
       .catch((e) => {
         setIsSkuLoading(false);
-        console.log(e)
+        console.log(e);
       });
-  }
+  };
 
-  
   const { sexList, sizeList } = enumArr;
   const { sexMap, sizeMap } = enumMap;
 
   const fields = [
-    { component: "Input", label: "Price (ex. 99.99)", type: "text", name: "price" },
-    { component: "Input", label: "Quantity", type: "number", name: "quantity" },
-  ]
+    {
+      component: 'Input',
+      label: 'Price (ex. 99.99)',
+      type: 'text',
+      name: 'price',
+    },
+    { component: 'Input', label: 'Quantity', type: 'number', name: 'quantity' },
+  ];
 
   const formik = useFormik({
     enableReinitialize: true, // need this to take latest values
@@ -73,52 +81,58 @@ const SkuCreate = ({ params: { sku_id } }) => {
       quantity: sku?.quantity,
     },
     onSubmit: handleSkuUpdate,
-    validate: formValidation
+    validate: formValidation,
   });
 
   const handleChange = (e) => {
     const { target } = e;
     if (target.name === 'price') {
-      formik.setFieldValue(target.name, target.value.replace(/[^0-9\.\$]/g,""));
+      formik.setFieldValue(
+        target.name,
+        target.value.replace(/[^0-9\.\$]/g, '')
+      );
     } else {
       formik.setFieldValue(target.name, target.value);
     }
   };
 
   if (isSkuLoading) {
-    return <div>sku loading...</div>
+    return <div>sku loading...</div>;
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-            <Link href={`/admin`} className="link link-primary">
+    <main className='flex min-h-screen flex-col items-center justify-between p-24'>
+      <Link href={`/admin`} className='link link-primary'>
         Dashboard
       </Link>
-      <h1 className="font-bold text-2xl capitalize">EDIT EXISTING SKU: </h1>
-      <h1 className="font-bold text-l">{sku?.species?.common_name}</h1>
-      <h2 className="font-bold text-lg opacity-50">
+      <h1 className='text-2xl font-bold capitalize'>EDIT EXISTING SKU: </h1>
+      <h1 className='text-l font-bold'>{sku?.species?.common_name}</h1>
+      <h2 className='text-lg font-bold opacity-50'>
         {sku?.species?.scientific_name}
       </h2>
 
-      <form onSubmit={formik.handleSubmit} className="justify-between flex flex-col">
-        <div className="container">
+      <form
+        onSubmit={formik.handleSubmit}
+        className='flex flex-col justify-between'
+      >
+        <div className='container'>
           {/* SIZE */}
-          <label className="form-control w-full max-w-xs">
-            <div className="label">
-              <span className="label-text font-sans">Size</span>
+          <label className='form-control w-full max-w-xs'>
+            <div className='label'>
+              <span className='label-text font-sans'>Size</span>
             </div>
             <select
-              name="size"
+              name='size'
               className={`select select-bordered w-full max-w-xs
               ${
                 formik.errors.size
-                  ? "border border-red-400 focus:border-red-400"
-                  : ""
+                  ? 'border border-red-400 focus:border-red-400'
+                  : ''
               }`}
               onChange={handleChange}
               value={formik.values?.size}
             >
-              <option disabled value="default">
+              <option disabled value='default'>
                 Select Size
               </option>
               {sizeList.map((size) => (
@@ -126,27 +140,29 @@ const SkuCreate = ({ params: { sku_id } }) => {
               ))}
             </select>
             {formik.errors.size && formik.touched.size && (
-        <span className="mt-1 text-m text-red-400">{formik.errors.size}</span>
-      )}
+              <span className='text-m mt-1 text-red-400'>
+                {formik.errors.size}
+              </span>
+            )}
           </label>
 
           {/* SEX */}
-          <label className="form-control w-full max-w-xs">
-            <div className="label">
-              <span className="label-text font-sans">Sex</span>
+          <label className='form-control w-full max-w-xs'>
+            <div className='label'>
+              <span className='label-text font-sans'>Sex</span>
             </div>
             <select
-              name="sex"
+              name='sex'
               className={`select select-bordered w-full max-w-xs
               ${
                 formik.errors.sex
-                  ? "border border-red-400 focus:border-red-400"
-                  : ""
+                  ? 'border border-red-400 focus:border-red-400'
+                  : ''
               }`}
               onChange={handleChange}
               value={formik.values?.sex}
             >
-              <option value="default" disabled>
+              <option value='default' disabled>
                 Select sex
               </option>
               {sexList.map((sex) => (
@@ -154,38 +170,38 @@ const SkuCreate = ({ params: { sku_id } }) => {
               ))}
             </select>
             {formik.errors.sex && formik.touched.sex && (
-        <span className="mt-1 text-m text-red-400">{formik.errors.sex}</span>
-      )}
+              <span className='text-m mt-1 text-red-400'>
+                {formik.errors.sex}
+              </span>
+            )}
           </label>
         </div>
 
-        <div className="container">
-        {fields.map((item, i) => (
-          <Field
-            key={i}
-            item={{ ...item }}
-            formik={formik}
-            handleChange={handleChange}
-          />
-        ))}
+        <div className='container'>
+          {fields.map((item, i) => (
+            <Field
+              key={i}
+              item={{ ...item }}
+              formik={formik}
+              handleChange={handleChange}
+            />
+          ))}
         </div>
 
         {/* BUTTONS */}
-        <div className="flex flex-row justify-between mt-5">
+        <div className='mt-5 flex flex-row justify-between'>
           <Link
             href={`/admin/species/${sku?.species?.specie_id}`}
-            className="btn btn-outline btn-secondary"
+            className='btn btn-outline btn-secondary'
           >
             Cancel
           </Link>
 
-          <button type="submit" className="btn btn-active btn-primary">
+          <button type='submit' className='btn btn-primary btn-active'>
             Save
           </button>
         </div>
       </form>
-
-
     </main>
   );
 };
@@ -195,9 +211,6 @@ export default SkuCreate;
 const SelectItem = ({ value, label = value }) => (
   <option value={value}>{label}</option>
 );
-
-
-
 
 // // 'use client'
 // import React from "react";

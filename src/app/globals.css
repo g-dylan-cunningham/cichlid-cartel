@@ -30,30 +30,26 @@ body {
 *,
 *::before,
 *::after {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 menu,
 ol,
 ul {
-    padding-left: 0;
+  padding-left: 0;
 }
-
 
 a {
   /* Places underlines below the descenders */
   text-underline-position: under;
 
-
   /* Sets the thickness as a percentage of the font size */
   text-decoration-thickness: 8;
 }
 
-
-
 @media (prefers-reduced-motion: no-preference) {
   html {
-        scroll-behavior: smooth;
+    scroll-behavior: smooth;
   }
 }
 
@@ -61,10 +57,10 @@ label,
 button,
 select,
 summary,
-[type=radio],
-[type=submit],
-[type=checkbox] {
-    cursor: pointer;
+[type='radio'],
+[type='submit'],
+[type='checkbox'] {
+  cursor: pointer;
 }
 
 :root {
@@ -72,10 +68,10 @@ summary,
 }
 
 textarea:disabled {
-  color: rgb(170, 170, 170)
+  color: rgb(170, 170, 170);
 }
 textarea {
-  font-size: 1rem!important;
+  font-size: 1rem !important;
 }
 
 .label .label-text {

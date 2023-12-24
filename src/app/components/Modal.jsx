@@ -1,37 +1,37 @@
-"use client";
-import React, { useState, useContext } from "react";
+'use client';
+import React, { useState, useContext } from 'react';
 // import Content from '@/app/components/Modal/Content'
 
 const Modal = ({ setShowModal, heading, subheading, children }) => {
   return (
     <>
-      <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-        <div className="relative my-6 mx-auto w-2/4 p-10">
+      <div className='fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overflow-x-hidden outline-none focus:outline-none'>
+        <div className='relative mx-auto my-6 w-2/4 p-10'>
           {/*content*/}
-          <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+          <div className='relative flex w-full flex-col rounded-lg border-0 bg-white shadow-lg outline-none focus:outline-none'>
             {/*header*/}
 
             <div>
-              <div className="flex flex-row items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-                <div className="flex flex-col">
-                  <h3 className="text-3xl font-bold">{heading}</h3>
+              <div className='border-blueGray-200 flex flex-row items-start justify-between rounded-t border-b border-solid p-5'>
+                <div className='flex flex-col'>
+                  <h3 className='text-3xl font-bold'>{heading}</h3>
 
-                  <h6 className="mt-1 text-2xl font-semibold text-gray-700">
+                  <h6 className='mt-1 text-2xl font-semibold text-gray-700'>
                     {subheading}
                   </h6>
                 </div>
 
                 <button
-                  className="p-1 ml-auto bg-transparent border-0 text-black opacity-60 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                  className='float-right ml-auto border-0 bg-transparent p-1 text-3xl font-semibold leading-none text-black opacity-60 outline-none focus:outline-none'
                   onClick={() => setShowModal(false)}
                 >
-                  <span className="bg-transparent text-black opacity-60 h-6 w-6 text-2xl block outline-none focus:outline-none">
+                  <span className='block h-6 w-6 bg-transparent text-2xl text-black opacity-60 outline-none focus:outline-none'>
                     ×
                   </span>
                 </button>
               </div>
               {/*body*/}
-              <div className="relative p-6 flex-auto">{children}</div>
+              <div className='relative flex-auto p-6'>{children}</div>
 
               {/*footer*/}
               {/* <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
@@ -63,7 +63,7 @@ const Modal = ({ setShowModal, heading, subheading, children }) => {
           </div>
         </div>
       </div>
-      <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+      <div className='fixed inset-0 z-40 bg-black opacity-25'></div>
     </>
   );
 };
