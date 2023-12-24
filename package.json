@@ -7,6 +7,8 @@
     "build": "next build ",
     "start": "next start",
     "lint": "next lint",
+    "format": "prettier --check --ignore-path .gitignore .",
+    "format:fix": "prettier --write --ignore-path .gitignore .",
     "postinstall": "prisma generate",
     "db:migrate": "knex migrate:latest",
     "db:migrate:undo": "knex migrate:down",
@@ -26,6 +28,7 @@
     "knex": "^3.1.0",
     "next": "14.0.4",
     "pg": "^8.11.3",
+    "prettier-plugin-tailwindcss": "^0.5.9",
     "react": "^18",
     "react-dom": "^18",
     "react-image-file-resizer": "^0.4.8",
@@ -37,7 +40,9 @@
     "daisyui": "^4.4.23",
     "eslint": "^8",
     "eslint-config-next": "14.0.4",
+    "eslint-config-prettier": "^9.1.0",
     "postcss": "^8",
+    "prettier": "^3.1.1",
     "prisma": "^5.7.0",
     "tailwindcss": "^3.3.0"
   }

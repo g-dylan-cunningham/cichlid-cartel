@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { enumArr, enumMap } from '@/app/config';
-import Input from "@/app/components/forms/Input";
+import { Field } from "@/app/components/forms";
 import formValidation from "../formValidation";
 
 const SkuCreate = ({ params: { sku_id } }) => {
@@ -35,7 +35,6 @@ const SkuCreate = ({ params: { sku_id } }) => {
   }, [sku_id]);
 
   const handleSkuUpdate = async (values) => {
-    debugger
     const payload = { ...values, sku_id: sku.sku_id,specie_id: sku.species.specie_id };
     setIsSkuLoading(true);
     const res = await fetch('/api/skus', {
@@ -60,9 +59,9 @@ const SkuCreate = ({ params: { sku_id } }) => {
   const { sexList, sizeList } = enumArr;
   const { sexMap, sizeMap } = enumMap;
 
-  const textInputs = [
-    { label: "Price (ex. 99.99)", type: "text", name: "price" },
-    { label: "Quantity", type: "number", name: "quantity" },
+  const fields = [
+    { component: "Input", label: "Price (ex. 99.99)", type: "text", name: "price" },
+    { component: "Input", label: "Quantity", type: "number", name: "quantity" },
   ]
 
   const formik = useFormik({
@@ -161,8 +160,8 @@ const SkuCreate = ({ params: { sku_id } }) => {
         </div>
 
         <div className="container">
-        {textInputs.map((item, i) => (
-          <Input
+        {fields.map((item, i) => (
+          <Field
             key={i}
             item={{ ...item }}
             formik={formik}
@@ -206,7 +205,7 @@ const SelectItem = ({ value, label = value }) => (
 // import prisma from "@/modules/prisma";
 // import { updateSku } from "@/modules/prisma/actions";
 // import { enumArr, enumMap } from "@/app/config";
-// import FormInput from "@/app/components/forms/FormInput";
+// import FormField from "@/app/components/forms/FormField";
 
 // const skuId = async ({ params: { sku_id } }) => {
 //   const sku = await prisma.sku.findUnique({
@@ -234,7 +233,7 @@ const SelectItem = ({ value, label = value }) => (
 //         {/* <div className="container"> */}
 //           {/* SIZE */}
 
-//           <FormInput label="Size">
+//           <FormField label="Size">
 //             <select
 //               defaultValue="default"
 //               name="size"
@@ -247,10 +246,10 @@ const SelectItem = ({ value, label = value }) => (
 //                 <SelectItem key={size} value={size} label={sizeMap[size]} />
 //               ))}
 //             </select>
-//           </FormInput>
+//           </FormField>
 
 //           {/* SEX */}
-//           <FormInput label="Sex">
+//           <FormField label="Sex">
 //           <select
 //               defaultValue="default"
 //               name="sex"
@@ -263,22 +262,22 @@ const SelectItem = ({ value, label = value }) => (
 //                 <SelectItem key={sex} value={sex} label={sexMap[sex]} />
 //               ))}
 //             </select>
-//           </FormInput>
+//           </FormField>
 
 //           {/* PRICE */}
 //           <label className="form-control w-full max-w-xs">
 //             <div className="label">
 //               <span className="label-text font-sans">Price</span>
 //             </div>
-//             <input
+//             <Field
 //               type="number"
 //               name="price"
 //               id="price"
-//               className="input input-bordered w-full max-w-xs"
+//               className="Field Field-bordered w-full max-w-xs"
 //               defaultValue={sku?.price}
 //               // pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"
 //               pattern="[0-9]"
-//             ></input>
+//             ></Field>
 //           </label>
 
 //           {/* QUANTITY */}
@@ -286,13 +285,13 @@ const SelectItem = ({ value, label = value }) => (
 //             <div className="label">
 //               <span className="label-text font-sans">Quantity</span>
 //             </div>
-//             <input
+//             <Field
 //               type="number"
 //               name="quantity"
 //               id="quantity"
-//               className="input input-bordered w-full max-w-xs"
+//               className="Field Field-bordered w-full max-w-xs"
 //               defaultValue={sku?.quantity}
-//             ></input>
+//             ></Field>
 //           </label>
 //         {/* </div> */}
 

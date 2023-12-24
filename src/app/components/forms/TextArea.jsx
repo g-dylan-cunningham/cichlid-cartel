@@ -1,18 +1,18 @@
 import React from "react";
 import InputWrapper from "./InputWrapper";
 
-const Input = ({ item, formik, handleChange, children }) => {
+const TextArea = ({ item, formik, handleChange, children }) => {
   const { name, type, label, ...rest } = item;
-  // debugger
   return (
     <InputWrapper label={label} formik={formik} name={name} children={children}>
-      <input
+      <textarea
         type={type}
+        value={formik.values[name]}
+        // placeholder={placeholder}
         name={name}
         onChange={handleChange}
-        value={formik.values[name]}
         // onBlur={formik.handleBlur}
-        className={`input input-bordered w-full
+        className={`textarea textarea-bordered
         ${
           formik.errors[name]
             ? "border border-red-400 focus:border-red-400"
@@ -24,4 +24,4 @@ const Input = ({ item, formik, handleChange, children }) => {
   );
 };
 
-export default Input;
+export default TextArea;

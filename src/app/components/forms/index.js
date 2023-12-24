@@ -1,8 +1,12 @@
 import Button from "./FormButton";
-import Input from "./Input";
-// FormInput - need to remove eventually
+import Field from "./Field";
+import TextArea from "./TextArea";
+import Select from './Select';
+// FormField - need to remove eventually
 
 export {
   Button,
-  Input,
+  Field,
+  TextArea,
+  Select
 }

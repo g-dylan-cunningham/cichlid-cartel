@@ -1,7 +1,13 @@
+'use client'
+
 import React from "react";
-import { createSpecies } from "@/modules/prisma/actions";
+// import { createSpecies } from "@/modules/prisma/actions";
+
+
 
 const CreateNewSpecies = () => {
+
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <h1 className="text-xl">Add New Species:</h1>
@@ -9,7 +15,7 @@ const CreateNewSpecies = () => {
       <div className="overflow-x-auto">
         <form
           className="flex flex-col justify-between space-y-3 mt-12"
-          action={createSpecies}
+          // action={createSpecies}
         >
           <label className="form-control w-full max-w-xs">
             <div className="label">

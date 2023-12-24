@@ -10,12 +10,13 @@
 // you can run migration explicitly
 // npx knex migrate:up 20231215034928_test.js
 
-exports.up = function(knex) {
+exports.up = function (knex) {
   return knex.schema
     .createTable('species', (table) => {
       table.string('specie_id', 25).primary();
       table.string('region', 80);
       table.string('subgroup', 80);
+      table.string('category', 80);
       table.string('common_name', 80);
       table.string('scientific_name', 160);
       table.string('description', 600);
@@ -24,10 +25,8 @@ exports.up = function(knex) {
     })
     .createTable('skus', (table) => {
       table.string('sku_id', 25).primary();
-      table.string("specie_id") //.unsigned();
-      table.foreign('specie_id')
-        .references('specie_id')
-        .inTable('species');
+      table.string('specie_id'); //.unsigned();
+      table.foreign('specie_id').references('specie_id').inTable('species');
       table.string('size');
       table.string('price');
       table.string('sex');
@@ -40,24 +39,20 @@ exports.up = function(knex) {
     .createTable('images', (table) => {
       table.string('image_id', 25).primary();
 
-      table.string("specie_id") //.unsigned();
-      table.foreign('specie_id')
-        .references('specie_id')
-        .inTable('species');
-
-      // table.string("sku_id") //.unsigned();
-      // table.foreign('sku_id')
-      //   .references('sku_id')
-      //   .inTable('skus');
-      table.string("key")
-      table.string("url")
-      table.string("thumbnail_url")
-      table.string("full_image_url")
+      table.string('specie_id'); //.unsigned();
+      table.foreign('specie_id').references('specie_id').inTable('species');
+      table.boolen('is_primary');
+      table.boolean('is_secondary');
+      table.boolean('is_thumbnail');
+      table.string('key');
+      table.string('url');
+      table.string('thumbnail_url');
+      table.string('full_image_url');
+      table.string('full_image_key');
       table.timestamp('created_at').defaultTo(knex.fn.now()).index();
       table.timestamp('updated_at').defaultTo(knex.fn.now());
     });
 };
-
 
 // exports.up = function (knex) {
 //   return knex.schema.createTable("reservations", (table) => {
@@ -68,7 +63,7 @@ exports.up = function(knex) {
 //     table.date("reservation_date").notNullable();
 //     table.time("reservation_time").notNullable();
 //     table.integer("people");
-    
+
 //     table.timestamps(true, true);
 //   });
 // };
@@ -86,6 +81,6 @@ exports.up = function(knex) {
 //   table.timestamps(true, true);
 // })
 
-exports.down = function(knex) {
-  knex.schema.dropTable('species').dropTable('skus');
+exports.down = function (knex) {
+  knex.schema.dropTable('species').dropTable('skus').dropTable('images');
 };

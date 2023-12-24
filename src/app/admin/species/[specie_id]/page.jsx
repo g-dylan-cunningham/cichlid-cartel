@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import Input from "@/app/components/forms/Input";
+import {Field} from "@/app/components/forms";
 import SkuDeleteList from "@/app/admin/components/SkuDeleteList";
 import { Button } from "@/app/components/forms";
 import ImageSide from "./ImageSide";
@@ -76,10 +76,10 @@ const SpeciesEdit = ({ params: { specie_id } }) => {
   if (isLoading) return <p>Loading...</p>;
   if (!specie) return <p>No species data</p>;
 
-  const inputs = [
-    { label: "Common Name", type: "text", name: "common_name" },
-    { label: "Scientific Name", type: "text", name: "scientific_name" },
-    { label: "Description", type: "textarea", cols: 50, rows: 7, name: "description"},
+  const fields = [
+    { component: "Input", label: "Common Name", type: "text", name: "common_name" },
+    { component: "Input", label: "Scientific Name", type: "text", name: "scientific_name" },
+    { component: "TextArea", label: "Description", type: "textarea", cols: 50, rows: 7, name: "description"},
   ];
 
   const handleChange = (e) => {
@@ -98,8 +98,8 @@ const SpeciesEdit = ({ params: { specie_id } }) => {
           <div style={{ margin: "0 auto" }}>
             {isEditable ? (
               <form onSubmit={formik.handleSubmit}>
-                {inputs.map((item, i) => (
-                  <Input
+                {fields.map((item, i) => (
+                  <Field
                     key={i}
                     item={item}
                     formik={formik}
@@ -124,8 +124,8 @@ const SpeciesEdit = ({ params: { specie_id } }) => {
               </form>
             ) : (
               <form onSubmit={formik.handleSubmit}>
-                {inputs.map((item, i) => (
-                  <Input
+                {fields.map((item, i) => (
+                  <Field
                     key={i}
                     item={{ ...item, disabled: true }}
                     formik={formik}
@@ -167,6 +167,7 @@ const SpeciesEdit = ({ params: { specie_id } }) => {
         <>
         <h3 className="text-xl">SKUs associated with this species:</h3>
         <SkuDeleteList specie={specie} />
+        <Link className="btn btn-wide btn-secondary btn-outline" href={`/admin/sku/create/${specie.specie_id}`}>Add another SKU</Link>
         </>
         
       )}

@@ -4,6 +4,19 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import prisma from "../index";
 
+
+// export async function createBlurb(formData) {
+//   const blurb = formData.get("blurb");
+
+//   const data = await prisma.copy.create({
+//     data: {
+//       blurb,
+//     },
+//   });
+//   revalidatePath(`/about`);
+//   redirect(`/admin/about`);
+// }
+
 export async function createSpecies(formData) {
   const common_name = formData.get("common_name");
   const scientific_name = formData.get("scientific_name");
@@ -19,6 +32,11 @@ export async function createSpecies(formData) {
   });
   revalidatePath(`/admin`);
   redirect(`/admin/sku/create/${data.specie_id}`);
+}
+
+export async function getSpecies() {
+  const filter = request.nextUrl.searchParams.get(["filter"]);
+  
 }
 
 export async function updateSpecies(specie_id, formData) {
