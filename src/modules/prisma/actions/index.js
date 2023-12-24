@@ -34,7 +34,7 @@ export async function createSpecies(formData) {
 }
 
 export async function getSpecies() {
-  const filter = request.nextUrl.searchParams.get(['filter']);
+  // const filter = request.nextUrl.searchParams.get(['filter']);
 }
 
 export async function updateSpecies(specie_id, formData) {
@@ -104,6 +104,6 @@ export async function deleteSku(specie_id, formData) {
       sku_id,
     },
   });
-  revalidatePath(`/admin/species/${specie_id}`);
+  revalidatePath(`/admin/sku/list/${specie_id}`);
   // redirect(`/admin/species/${specie_id}`)
 }

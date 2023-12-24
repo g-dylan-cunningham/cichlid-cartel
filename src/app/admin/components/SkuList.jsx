@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { deleteSku } from '@/modules/prisma/actions';
 
-const SkuDeleteList = ({ specie }) => {
+const SkuList = ({ specie, isDeleteEnabled, children }) => {
   const deleteSkuWithSpeciesId = deleteSku.bind(null, specie.specie_id);
   return (
     <div>
@@ -22,7 +22,7 @@ const SkuDeleteList = ({ specie }) => {
                     <th>Price</th>
                     <th>Sex</th>
                     <th>Quantity</th>
-                    <th>Delete?</th>
+                    {isDeleteEnabled && <th>Delete?</th>}
                   </tr>
                 </thead>
                 <tbody>
@@ -56,18 +56,20 @@ const SkuDeleteList = ({ specie }) => {
                       <td>{sku.quantity}</td>
 
                       {/* actions */}
-                      <td>
-                        {/* <input type="checkbox" name={sku.sku_id} value={sku.sku_id} /> */}
-                        <button
-                          className='btn btn-error'
-                          type='submit'
-                          action={sku.sku_id}
-                          name='sku_id'
-                          value={sku.sku_id}
-                        >
-                          Delete Sku
-                        </button>
-                      </td>
+                      {isDeleteEnabled && (
+                        <td>
+                          {/* <input type="checkbox" name={sku.sku_id} value={sku.sku_id} /> */}
+                          <button
+                            className='btn btn-error'
+                            type='submit'
+                            action={sku.sku_id}
+                            name='sku_id'
+                            value={sku.sku_id}
+                          >
+                            Delete Sku
+                          </button>
+                        </td>
+                      )}
                     </tr>
                   ))}
                 </tbody>
@@ -76,8 +78,17 @@ const SkuDeleteList = ({ specie }) => {
           </form>
         </div>
       )}
+      <div className='flex justify-between'>
+        {children}
+        <Link
+          className='btn btn-outline btn-secondary btn-wide'
+          href={`/admin/sku/create/${specie.specie_id}`}
+        >
+          Add another SKU
+        </Link>
+      </div>
     </div>
   );
 };
 
-export default SkuDeleteList;
+export default SkuList;

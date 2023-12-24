@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { Field } from '@/app/components/forms';
-import SkuDeleteList from '@/app/admin/components/SkuDeleteList';
+import SkuList from '@/app/admin/components/SkuList';
 import { Button } from '@/app/components/forms';
 import ImageSide from './ImageSide';
 
@@ -185,13 +185,14 @@ const SpeciesEdit = ({ params: { specie_id } }) => {
       ) : (
         <>
           <h3 className='text-xl'>SKUs associated with this species:</h3>
-          <SkuDeleteList specie={specie} />
-          <Link
-            className='btn btn-outline btn-secondary btn-wide'
-            href={`/admin/sku/create/${specie.specie_id}`}
-          >
-            Add another SKU
-          </Link>
+          <SkuList specie={specie} isDeleteEnabled={false}>
+            <Link
+              className='btn btn-outline btn-secondary btn-wide'
+              href={`/admin/sku/list/${specie.specie_id}`}
+            >
+              SKU details
+            </Link>
+          </SkuList>
         </>
       )}
     </main>
