@@ -1,25 +1,6 @@
-import { Poppins, Roboto_Mono, Rubik_Maze, Ubuntu } from 'next/font/google';
+import React from 'react';
 import Link from 'next/link';
-import './globals.css';
-
-const poppins = Ubuntu({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-poppins',
-  weight: '400',
-});
-
-const roboto_mono = Roboto_Mono({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-roboto-mono',
-  weight: '500',
-});
-
-export const metadata = {
-  title: 'Cichlid Cartel',
-  description: 'The most beautiful peacocks, haps and african cichlids in AZ.',
-};
+import AdminLink from './AdminLink';
 
 const NavBar = ({}) => {
   return (
@@ -46,6 +27,7 @@ const NavBar = ({}) => {
             tabIndex={0}
             className='menu dropdown-content menu-sm z-[1] mt-3 w-52 rounded-box bg-base-100 p-2 shadow'
           >
+            <AdminLink />
             <li>
               <Link href='/'>Fish</Link>
               <ul className='p-2'>
@@ -69,27 +51,34 @@ const NavBar = ({}) => {
           </ul>
         </div>
         <Link href='/' className='btn btn-ghost text-xl'>
-          daisyUI
+          Cichlid Cartel
         </Link>
       </div>
+
+      {/* NON MOBILE */}
       <div className='navbar-center hidden lg:flex'>
         <ul className='menu menu-horizontal px-1'>
-          <li>
-            <Link href='/'>Item 1</Link>
-          </li>
+          <AdminLink />
           <li>
             <details>
-              <summary>Parent</summary>
+              <summary>Fish</summary>
               <ul className='p-2'>
                 <li>
-                  <Link href='/'>Submenu 1</Link>
+                  <Link href='/'>Peacocks</Link>
                 </li>
                 <li>
-                  <Link href='/'>Submenu 2</Link>
+                  <Link href='/'>Haps</Link>
+                </li>
+                <li>
+                  <Link href='/'>Other</Link>
                 </li>
               </ul>
             </details>
           </li>
+          <li>
+            <Link href='/'>Item 1</Link>
+          </li>
+
           <li>
             <Link href='/'>Item 3</Link>
           </li>
@@ -103,13 +92,5 @@ const NavBar = ({}) => {
     </div>
   );
 };
-export default function RootLayout({ children }) {
-  return (
-    <html lang='en'>
-      <body className={`${poppins.variable} ${roboto_mono.variable}`}>
-        <NavBar />
-        <div className='text-gray-600'>{children}</div>
-      </body>
-    </html>
-  );
-}
+
+export default NavBar;

@@ -2,7 +2,7 @@ import prisma from '@/modules/prisma';
 import Link from 'next/link';
 import Image from 'next/image';
 
-export default async function Admin() {
+const Admin = async () => {
   const species = await prisma.species.findMany({
     orderBy: { created_at: 'desc' },
     include: {
@@ -136,3 +136,5 @@ const TableElement = ({ specie, property }) => {
     </ul>
   );
 };
+
+export default Admin;

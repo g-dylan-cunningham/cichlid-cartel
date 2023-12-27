@@ -5,7 +5,7 @@ const Input = ({ item, formik, handleChange, children }) => {
   const { name, type, label, ...rest } = item;
   // debugger
   return (
-    <InputWrapper label={label} formik={formik} name={name} children={children}>
+    <InputWrapper label={label} formik={formik} name={name}>
       <input
         type={type}
         name={name}

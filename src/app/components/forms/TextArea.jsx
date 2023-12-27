@@ -4,7 +4,7 @@ import InputWrapper from './InputWrapper';
 const TextArea = ({ item, formik, handleChange, children }) => {
   const { name, type, label, ...rest } = item;
   return (
-    <InputWrapper label={label} formik={formik} name={name} children={children}>
+    <InputWrapper label={label} formik={formik} name={name}>
       <textarea
         type={type}
         value={formik.values[name]}

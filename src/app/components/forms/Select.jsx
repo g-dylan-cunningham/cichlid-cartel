@@ -4,7 +4,7 @@ import InputWrapper from './InputWrapper';
 const Select = ({ item, formik, handleChange, children }) => {
   const { name, type, label, map, list, ...rest } = item;
   return (
-    <InputWrapper label={label} formik={formik} name={name} children={children}>
+    <InputWrapper label={label} formik={formik} name={name}>
       <select
         name={name}
         className={`select select-bordered w-full max-w-xs
