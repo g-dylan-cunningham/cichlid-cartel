@@ -1,4 +1,8 @@
 'use client';
+export const dynamic = 'force-dynamic'
+export const revalidate = true
+export const fetchCache = 'force-no-store'
+
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useFormik } from 'formik';
@@ -15,6 +19,8 @@ const SpeciesEdit = ({ params: { specie_id } }) => {
       headers: {
         'Content-Type': 'application/json',
       },
+      next: { revalidate: 10 },
+      cache: 'no-store',
       body: JSON.stringify({ specie_id }),
     })
       .then((res) => res.json())

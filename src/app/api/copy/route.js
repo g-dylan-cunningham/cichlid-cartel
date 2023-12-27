@@ -20,7 +20,7 @@ export async function GET(request, resp) {
 
   // console.log('server res', res);
   // const data = await res.json();
-  console.log('{ ...copy }', { ...res });
+  // console.log('{ ...copy }', { ...res });
   return NextResponse.json({ ...res });
   // fs.readFile("./copy.json", "utf8", (error, data) => {
   //   if (error) {

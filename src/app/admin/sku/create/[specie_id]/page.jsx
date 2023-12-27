@@ -4,10 +4,9 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useFormik } from 'formik';
-import * as yup from 'yup';
-import { enumArr, enumMap } from '@/app/config';
 import { Field } from '@/app/components/forms';
-import formValidation from '../../formValidation';
+import formValidation from '@/app/admin/sku/formValidation';
+import { fields } from '@/app/admin/sku/skuConfig';
 
 const SkuCreate = ({ params: { specie_id } }) => {
   const [isSpecieLoading, setIsSpecieLoading] = useState(false);
@@ -42,12 +41,15 @@ const SkuCreate = ({ params: { specie_id } }) => {
       headers: {
         'Content-Type': 'application/json',
       },
+      next: { revalidate: 1 },
+      // next: { revalidate: 10 },
+      cache: 'no-store',
       body: JSON.stringify(payload),
     })
       .then((res) => res.json())
       .then((data) => {
         setIsSkuLoading(false);
-        router.push(`/admin/species/${specie_id}`);
+        router.push(`/admin/sku/list/${specie_id}`);
       })
       .catch((e) => {
         setIsSkuLoading(false);
@@ -55,8 +57,7 @@ const SkuCreate = ({ params: { specie_id } }) => {
       });
   };
 
-  const { sexList, sizeList } = enumArr;
-  const { sexMap, sizeMap } = enumMap;
+
 
   const formik = useFormik({
     enableReinitialize: true, // need this to take latest values
@@ -86,29 +87,6 @@ const SkuCreate = ({ params: { specie_id } }) => {
     return <div>specie loading...</div>;
   }
 
-  const fields = [
-    {
-      component: 'Select',
-      label: 'Size',
-      name: 'size',
-      list: sizeList,
-      map: sizeMap,
-    },
-    {
-      component: 'Select',
-      label: 'Sex',
-      name: 'sex',
-      list: sexList,
-      map: sexMap,
-    },
-    {
-      component: 'Input',
-      label: 'Price (ex. 99.99)',
-      type: 'text',
-      name: 'price',
-    },
-    { component: 'Input', label: 'Quantity', type: 'number', name: 'quantity' },
-  ];
 
   return (
     <main className='flex min-h-screen flex-col items-center justify-between p-24'>
@@ -149,6 +127,3 @@ const SkuCreate = ({ params: { specie_id } }) => {
 
 export default SkuCreate;
 
-const SelectItem = ({ value, label = value }) => (
-  <option value={value}>{label}</option>
-);

@@ -61,20 +61,27 @@ export async function POST(request) {
       quantity: parseInt(quantity, 10),
     },
   });
-
+  revalidatePath(`/admin/skus/list/${specie_id}`);
   return NextResponse.json(sku);
 }
 
-export async function PATCH(request) {
-  const body = await request.json();
-  const { sku_id, specie_id, size, price, sex, quantity } = body;
+export async function PATCH(request, response) {
 
-  const sku = await updateSku({
-    sku_id,
-    size,
-    price,
-    sex,
-    quantity,
+  const body = await request.json();
+  const { sku_id, size, price, sex, quantity } = body;
+
+  const sku = await prisma.sku.update({
+    where: {
+      sku_id,
+    },
+    data: {
+      size,
+      price,
+      sex,
+      quantity: parseInt(quantity, 10),
+      is_available: true,
+      is_oos: false,
+    },
   });
   return NextResponse.json(sku);
 }
