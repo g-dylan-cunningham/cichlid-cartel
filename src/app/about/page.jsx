@@ -1,10 +1,10 @@
 import React from 'react';
-import { createBlurb } from '@/modules/prisma/actions';
+// import { createBlurb } from '@/modules/prisma/actions';
 
 const About = async () => {
   return (
     <main className='flex min-h-screen flex-col items-center justify-between p-24'>
-      <form action={createBlurb}>
+      <form>
         <label className='form-control'>
           <div className='label'>
             <span className='label-text'>Blurb</span>
