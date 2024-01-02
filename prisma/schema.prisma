@@ -21,7 +21,7 @@ model Species {
   updated_at      DateTime @updatedAt
   skus            Sku[]
   images          Images[]
-
+  
   @@map("species")
 }
 

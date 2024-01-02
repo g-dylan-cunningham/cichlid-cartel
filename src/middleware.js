@@ -12,7 +12,7 @@ import { cookies } from 'next/headers';
 
 export function middleware(request) {
   if (request.nextUrl.pathname.startsWith('/admin')) {
-    console.log("startsWith('/admin')")
+    // console.log("startsWith('/admin')")
     const cookieStore = cookies();
     const cartelCookie = cookieStore.get('cartel-jwt');
     const isValidToken = cartelCookie?.value === 'token';

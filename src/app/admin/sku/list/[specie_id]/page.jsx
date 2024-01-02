@@ -11,11 +11,14 @@ export const fetchCache = 'force-no-store';
 
 const Skus = async ({ params: { specie_id } }) => {
   const specie = await prisma.species.findUnique({
-    orderBy: { created_at: 'desc' },
     where: {
       specie_id,
     },
-    include: { skus: true },
+    include: {
+      skus: {
+        orderBy: { created_at: 'desc' },
+      },
+    }
   });
 
   return (

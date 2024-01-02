@@ -1,28 +1,20 @@
 'use client';
-export const dynamic = 'force-dynamic'
-export const revalidate = true
-export const fetchCache = 'force-no-store'
+export const dynamic = 'force-dynamic';
+export const revalidate = true;
+export const fetchCache = 'force-no-store';
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useFormik } from 'formik';
-import * as yup from 'yup';
-import { Field } from '@/app/components/forms';
+import { Field, Button } from '@/app/components/forms';
+import { fields } from '../speciesConfig';
+import validationSchema from '../formValidation'
 import SkuList from '@/app/admin/components/SkuList';
-import { Button } from '@/app/components/forms';
 import ImageSide from './ImageSide';
 
 const SpeciesEdit = ({ params: { specie_id } }) => {
   useEffect(() => {
-    fetch('/api/species', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      next: { revalidate: 10 },
-      cache: 'no-store',
-      body: JSON.stringify({ specie_id }),
-    })
+    fetch(`/api/species?specie_id=${specie_id}`)
       .then((res) => res.json())
       .then((data) => {
         setSpecie(data);
@@ -56,12 +48,11 @@ const SpeciesEdit = ({ params: { specie_id } }) => {
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setLoading] = useState(true);
 
-  // const error = false;
-
   const {
-    common_name = 'default',
+    common_name = 'default', // 'default' is for validation (not enum)
     scientific_name = 'default',
     description = 'default',
+    category = 'OTHER', // 'OTHER' is db enum
   } = specie;
 
   const formik = useFormik({
@@ -70,51 +61,27 @@ const SpeciesEdit = ({ params: { specie_id } }) => {
       common_name: common_name,
       scientific_name: scientific_name,
       description: description,
+      category: category
     },
     onSubmit: handleSpeciesUpdate,
-    validationSchema: yup.object().shape({
-      common_name: yup.string().required().min(3).max(50),
-      scientific_name: yup.string(),
-      description: yup.string().required().min(3).max(500),
-    }),
+    validationSchema,
   });
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return (
+    <div className="skeleton w-32 h-32"></div>
+  );
   if (!specie) return <p>No species data</p>;
-
-  const fields = [
-    {
-      component: 'Input',
-      label: 'Common Name',
-      type: 'text',
-      name: 'common_name',
-    },
-    {
-      component: 'Input',
-      label: 'Scientific Name',
-      type: 'text',
-      name: 'scientific_name',
-    },
-    {
-      component: 'TextArea',
-      label: 'Description',
-      type: 'textarea',
-      cols: 50,
-      rows: 7,
-      name: 'description',
-    },
-  ];
 
   const handleChange = (e) => {
     const { target } = e;
     formik.setFieldValue(target.name, target.value);
   };
-
+  // console.log('formik', formik);
   return (
     <main className='flex min-h-screen flex-col justify-between md:items-center'>
-      <Link href={`/admin`} className='link link-primary'>
+      {/* <Link href={`/admin`} className='link link-primary'>
         Dashboard
-      </Link>
+      </Link> */}
       <div className='gap-8 md:flex md:flex-col lg:grid lg:grid-cols-2'>
         {/* LEFT COLUMN */}
         <div className='flex flex-col space-y-3'>
@@ -137,16 +104,19 @@ const SpeciesEdit = ({ params: { specie_id } }) => {
                     onClick={() => setIsEditable(false)}
                     text='Cancel'
                   />
-                  <Button
+                  <button type='submit' className='btn btn-primary btn-active'>
+                    Save
+                  </button>
+                  {/* <Button
                     type='submit'
                     variant='primary'
                     btnClass=''
                     text='Save'
-                  />
+                  /> */}
                 </div>
               </form>
             ) : (
-              <form onSubmit={formik.handleSubmit}>
+              <form>
                 {fields.map((item, i) => (
                   <Field
                     key={i}

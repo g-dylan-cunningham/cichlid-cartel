@@ -5,21 +5,23 @@ import { NextResponse } from 'next/server';
 export async function POST(request) {
   // get single species
   // consulta a base de datos
-  const body = await request.json();
-  const specie = await prisma.species.findUnique({
-    where: {
-      specie_id: body.specie_id,
+  const body = await request.json();  
+  const specie = await prisma.species.create({
+    data: {
+      common_name: body.common_name,
+      scientific_name: body.scientific_name,
+      category: body.category,
+      description: body.description,
+      region: "unasked",
+      subgroup: 'unasked'
     },
-    include: { skus: true },
   });
-
+  revalidatePath('/admin')
   return NextResponse.json(specie);
 }
 
 export async function GET(request) {
   // get single species
-  // consulta a base de datos
-  // const body = await request.json();
   const specie_id = request.nextUrl.searchParams.get(['specie_id']);
 
   const specie = await prisma.species.findUnique({
@@ -42,9 +44,11 @@ export async function PATCH(request) {
     data: {
       common_name: body.common_name,
       scientific_name: body.scientific_name,
+      category: body.category,
       description: body.description,
     },
   });
+  revalidatePath('/admin')
   return NextResponse.json(specie);
 }
 

@@ -140,8 +140,8 @@ const ImageUpload = ({
       return new Promise((resolve) => {
         Resizer.imageFileResizer(
           file,
-          100,
-          100,
+          200,
+          200,
           'png',
           10,
           0,
@@ -194,6 +194,15 @@ const ImageUpload = ({
   return (
     <div className='mt-8'>
       <form onSubmit={handleSubmit} className='flex justify-between'>
+      <div>
+          {/* image queued for upload */}
+          {fileLink && (
+            <>
+              <Image src={fileLink} width={200} height={200} />
+              <h3 className='mb-4'>Click upload button</h3>
+            </>
+          )}
+        </div>
         <div className='flex flex-col'>
           {!file && (
             <h1 className='mb-2'>Choose an image for this species to upload</h1>
@@ -212,15 +221,7 @@ const ImageUpload = ({
             disabled={!file || uploading}
           />
         </div>
-        <div>
-          {/* image queued for upload */}
-          {fileLink && (
-            <>
-              <Image src={fileLink} width={200} height={200} />
-              <h3 className='mb-4'>Click upload button</h3>
-            </>
-          )}
-        </div>
+        
       </form>
     </div>
   );

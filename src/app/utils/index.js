@@ -1,3 +1,3 @@
-import { countDecimals } from './utils';
+import { countDecimals, getMinSkuPrice } from './utils';
 
-export { countDecimals };
+export { countDecimals, getMinSkuPrice };

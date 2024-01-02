@@ -3,4 +3,11 @@ const countDecimals = (value) => {
   return value.toString().split('.')[1].length || 0;
 };
 
-export { countDecimals };
+const getMinSkuPrice = (skus) => {
+  const priceArr = skus.map(sku => parseFloat(sku.price, 10))
+  return Math.min(...priceArr);
+}
+export {
+  countDecimals,
+  getMinSkuPrice,
+};

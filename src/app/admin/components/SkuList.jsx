@@ -78,7 +78,7 @@ const SkuList = ({ specie, isDeleteEnabled, children }) => {
           </form>
         </div>
       )}
-      <div className='flex justify-between'>
+      <div className='flex justify-between mb-5'>
         {children}
         <Link
           className='btn btn-outline btn-secondary btn-wide'

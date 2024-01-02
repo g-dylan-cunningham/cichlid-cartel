@@ -1,8 +1,14 @@
-import React from 'react';
+'use client';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import AdminLink from './AdminLink';
+import { enumArr, enumMap } from '@/app/config';
 
 const NavBar = ({}) => {
+  const [isFishExpanded, setIsFishExpanded] = useState(false);
+  const { categoryList } = enumArr;
+  const { categoryMap } = enumMap;
+  // console.log(categoryMap, categoryList);
   return (
     <div className='navbar bg-base-100'>
       <div className='navbar-start'>
@@ -30,17 +36,18 @@ const NavBar = ({}) => {
             <AdminLink />
             <li>
               <Link href='/'>Fish</Link>
-              <ul className='p-2'>
-                <li>
-                  <Link href='/'>Peacocks</Link>
+              {/* <ul className='p-2'>
+                <li key={0}>
+                  <Link href={`/shop`}>All</Link>
                 </li>
-                <li>
-                  <Link href='/'>Haps</Link>
-                </li>
-                <li>
-                  <Link href='/'>Other</Link>
-                </li>
-              </ul>
+                {categoryList.map((category) => (
+                  <li key={category}>
+                    <Link href={`/shop?category=${category}`}>
+                      {categoryMap[category]}
+                    </Link>
+                  </li>
+                ))}
+              </ul> */}
             </li>
             <li>
               <Link href='/'>Ordering</Link>
@@ -50,9 +57,9 @@ const NavBar = ({}) => {
             </li>
           </ul>
         </div>
-        <Link href='/' className='btn btn-ghost text-xl'>
+        {/* <Link href='/' className='btn btn-ghost text-xl'>
           Cichlid Cartel
-        </Link>
+        </Link> */}
       </div>
 
       {/* NON MOBILE */}
@@ -60,20 +67,37 @@ const NavBar = ({}) => {
         <ul className='menu menu-horizontal px-1'>
           <AdminLink />
           <li>
-            <details>
-              <summary>Fish</summary>
-              <ul className='p-2'>
-                <li>
-                  <Link href='/'>Peacocks</Link>
+          <Link href='/shop'>Fish</Link>
+            {/* <details
+              open={isFishExpanded}
+              onClick={() => {
+                console.log('toggle', isFishExpanded);
+                setIsFishExpanded(!isFishExpanded);
+                console.log('toggle2', isFishExpanded);
+              }}
+              className='z-10'
+            > */}
+              {/* <summary>Fish</summary> */}
+              {/* <ul className='p-2'>
+                <li key={0}>
+                  <Link href={`/shop`}>All</Link>
                 </li>
-                <li>
-                  <Link href='/'>Haps</Link>
-                </li>
-                <li>
-                  <Link href='/'>Other</Link>
-                </li>
-              </ul>
-            </details>
+                {categoryList.map((category) => (
+                  <li key={category}>
+                    <Link
+                      href={`/shop?category=${category}`}
+                      onClick={() => {
+                        console.log('clicked', isFishExpanded);
+                        setIsFishExpanded(false);
+                        console.log('clicked2', isFishExpanded);
+                      }}
+                    >
+                      {categoryMap[category]}
+                    </Link>
+                  </li>
+                ))}
+              </ul> */}
+            {/* </details> */}
           </li>
           <li>
             <Link href='/'>Item 1</Link>
@@ -85,9 +109,9 @@ const NavBar = ({}) => {
         </ul>
       </div>
       <div className='navbar-end'>
-        <Link href='/' className='btn'>
+        {/* <Link href='/' className='btn'>
           Button
-        </Link>
+        </Link> */}
       </div>
     </div>
   );

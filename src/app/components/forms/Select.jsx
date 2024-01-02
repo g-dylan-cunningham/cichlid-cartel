@@ -1,11 +1,12 @@
 import React from 'react';
 import InputWrapper from './InputWrapper';
 
-const Select = ({ item, formik, handleChange, children }) => {
-  const { name, type, label, map, list, ...rest } = item;
+const Select = ({ item, formik, handleChange }) => {
+  const { name, type, label, map, list, disabled, ...rest } = item;
   return (
     <InputWrapper label={label} formik={formik} name={name}>
       <select
+        disabled={disabled}
         name={name}
         className={`select select-bordered w-full max-w-xs
               ${

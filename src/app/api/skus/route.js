@@ -5,8 +5,6 @@ import { updateSku } from '@/modules/prisma/actions';
 
 export async function GET(request) {
   // get single species
-  // consulta a base de datos
-  // const body = await request.json();
   const sku_id = request.nextUrl.searchParams.get(['sku_id']);
 
   const sku = await prisma.sku.findUnique({
@@ -61,7 +59,7 @@ export async function POST(request) {
       quantity: parseInt(quantity, 10),
     },
   });
-  revalidatePath(`/admin/skus/list/${specie_id}`);
+  revalidatePath(`/admin/sku/list/${specie_id}`);
   return NextResponse.json(sku);
 }
 

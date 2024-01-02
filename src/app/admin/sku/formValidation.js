@@ -25,7 +25,6 @@ export default (values, props) => {
     errors.quantity = 'Please add a quantity greater than zero';
   }
 
-  console.log(typeof values.quantity);
   if (parseInt(values.quantity) != values.quantity) {
     errors.quantity = 'Please enter number of fish available for this sku';
   }
