@@ -13,7 +13,7 @@ module.exports = {
   // production: {
     client: 'pg',
     connection:
-      process.env.POSTGRES_PRISMA_URL + '?sslmode=require',
+      process.env.POSTGRES_URL + '?sslmode=require',
       // (process.env.NODE_ENV === 'development' ? '' : '?sslmode=require'),
     // pool: {
     //   min: 2,
