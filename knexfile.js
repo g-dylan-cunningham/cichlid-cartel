@@ -2,25 +2,25 @@
  * @type { Object.<string, import("knex").Knex.Config> }
  */
 module.exports = {
-  development: {
-    client: 'pg',
-    connection: { user: 'postgres', database: 'webapp_dev' },
-    seeds: {
-      directory: './seeds',
-    },
-  },
+  // development: {
+  //   client: 'pg',
+  //   connection: { user: 'postgres', database: 'webapp_dev' },
+  //   seeds: {
+  //     directory: './seeds',
+  //   },
+  // },
 
-  production: {
+  // production: {
     client: 'pg',
     connection:
-      process.env.POSTGRES_PRISMA_URL +
-      (process.env.NODE_ENV === 'development' ? '' : '?sslmode=require'),
-    pool: {
-      min: 2,
-      max: 10,
-    },
-    migrations: {
-      tableName: 'knex_migrations',
-    },
-  },
+      process.env.POSTGRES_PRISMA_URL + '?sslmode=require',
+      // (process.env.NODE_ENV === 'development' ? '' : '?sslmode=require'),
+    // pool: {
+    //   min: 2,
+    //   max: 10,
+    // },
+    // migrations: {
+    //   tableName: 'knex_migrations',
+    // },
+  // },
 };
