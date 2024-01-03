@@ -29,7 +29,7 @@ exports.up = function (knex) {
       table.foreign('specie_id').references('specie_id').inTable('species');
       table.string('size');
       table.string('price');
-      table.string('sex');
+      table.string('sex').defaultTo('UNSEXED');;
       table.integer('quantity').defaultTo(1);
       table.boolean('is_available').defaultTo(false).notNullable();
       table.boolean('is_oos').defaultTo(false).notNullable();
@@ -38,12 +38,11 @@ exports.up = function (knex) {
     })
     .createTable('images', (table) => {
       table.string('image_id', 25).primary();
-
       table.string('specie_id'); //.unsigned();
       table.foreign('specie_id').references('specie_id').inTable('species');
-      table.boolen('is_primary');
-      table.boolean('is_secondary');
-      table.boolean('is_thumbnail');
+      table.boolean('is_primary').defaultTo(false);
+      table.boolean('is_secondary').defaultTo(false);
+      table.boolean('is_thumbnail').defaultTo(false);
       table.string('key');
       table.string('url');
       table.string('thumbnail_url');
