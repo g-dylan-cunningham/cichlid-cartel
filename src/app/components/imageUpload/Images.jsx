@@ -40,8 +40,7 @@ const ImageUpload = ({
       };
 
       // https://cichlid-cartel.s3.us-west-1.amazonaws.com/cichlid-cartel/clqeem8js0000g7us2ln2cp5m/thumbnail/eyebiter1.png
-      const response = await fetch(
-        process.env.NEXT_PUBLIC_BASE_URL + '/api/aws',
+      const response = await fetch('/api/aws',
         {
           method: 'POST',
           headers: {

@@ -65,8 +65,7 @@ const ImageSide = ({ specie, isEditable, showModal, setShowModal }) => {
     ];
 
     e.preventDefault();
-    const response = await fetch(
-      process.env.NEXT_PUBLIC_BASE_URL + '/api/images',
+    const response = await fetch('/api/images',
       {
         method: 'DELETE',
         headers: {

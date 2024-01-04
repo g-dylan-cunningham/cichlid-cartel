@@ -9,8 +9,8 @@ datasource db {
 
 model Species {
   specie_id       String   @id @default(cuid())
-  region          String
-  subgroup        String
+  region          Region   @default(OTHER)
+  subgroup        Subgroup @default(OTHER)
   category        Category @default(OTHER)
   common_name     String
   scientific_name String
@@ -81,4 +81,16 @@ enum Sex {
   FEMALE
   UNSEXED
   BREEDINGGROUP
+}
+
+enum Region {
+  MALAWI
+  VICTORIA
+  TANGANYIKA
+  NEW_WORLD
+  OTHER
+}
+
+enum Subgroup {
+  OTHER
 }

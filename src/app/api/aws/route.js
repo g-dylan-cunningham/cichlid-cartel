@@ -31,7 +31,7 @@ export async function POST(request) {
 
     return Response.json({ url, fields });
   } catch (error) {
-    console.error(error);
+    console.error('/api/aws POST error',error);
     var errorMessage;
     if (error instanceof Error) {
       errorMessage = error.message;
