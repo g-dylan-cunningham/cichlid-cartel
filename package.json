@@ -13,7 +13,7 @@
     "db:migrate": "knex migrate:latest",
     "db:migrate:undo": "knex migrate:down",
     "db:migrate:make": "knex migrate:make",
-    "vercel-build": "prisma generate && npm run db:migrate && next build",
+    "vercel-build": "prisma generate && prisma db push && next build",
     "seed": "knex seed:run",
     "generate": "prisma generate",
     "migrate:rollback": "knex migrate:rollback",

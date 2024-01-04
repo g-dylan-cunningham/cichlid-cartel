@@ -1,13 +1,11 @@
 generator client {
   provider = "prisma-client-js"
-  // previewFeatures = ["jsonProtocol"]
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("POSTGRES_PRISMA_URL")
 }
-
 
 model Species {
   specie_id       String   @id @default(cuid())
@@ -19,23 +17,15 @@ model Species {
   description     String
   created_at      DateTime @default(now())
   updated_at      DateTime @updatedAt
-  skus            Sku[]
   images          Images[]
-  
-  @@map("species")
-}
+  skus            Sku[]
 
-enum Category { // fish category
-  PEACOCK
-  HAP
-  TANGANYIKA
-  OTHER
+  @@map("species")
 }
 
 model Sku {
   sku_id       String   @id @default(cuid())
   specie_id    String
-  species      Species  @relation(fields: [specie_id], references: [specie_id])
   size         Size     @default(M)
   price        String
   sex          Sex      @default(UNSEXED)
@@ -44,8 +34,34 @@ model Sku {
   is_oos       Boolean  @default(false)
   created_at   DateTime @default(now())
   updated_at   DateTime @updatedAt
+  species      Species  @relation(fields: [specie_id], references: [specie_id])
 
   @@map("skus")
+}
+
+model Images {
+  image_id       String   @id @default(cuid())
+  specie_id      String
+  is_primary     Boolean  @default(false)
+  is_secondary   Boolean  @default(false)
+  is_thumbnail   Boolean  @default(false)
+  key            String
+  url            String
+  thumbnail_url  String?
+  full_image_url String?
+  full_image_key String?
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt
+  species        Species  @relation(fields: [specie_id], references: [specie_id])
+
+  @@map("images")
+}
+
+enum Category {
+  PEACOCK
+  HAP
+  TANGANYIKA
+  OTHER
 }
 
 enum Size {
@@ -66,47 +82,3 @@ enum Sex {
   UNSEXED
   BREEDINGGROUP
 }
-
-model Images {
-  image_id      String   @id @default(cuid())
-  species       Species  @relation(fields: [specie_id], references: [specie_id])
-  specie_id     String
-  // skus       Sku?      @relation(fields: [sku_id], references: [sku_id])
-  // sku_id     String?
-  is_primary    Boolean  @default(false)
-  is_secondary  Boolean  @default(false)
-  is_thumbnail  Boolean  @default(false)
-  key           String
-  url           String
-  thumbnail_url  String?
-  full_image_url String?
-  full_image_key String?
-  created_at    DateTime @default(now())
-  updated_at    DateTime @updatedAt
-  @@map("images")
-}
-
-// model Vendor {
-//   vendor_id      String   @id @default(cuid())
-//   store_name     String
-//   banner_url      String
-//   thumbnail_url  String?
-//   full_image_url String?
-//   created_at    DateTime @default(now())
-//   updated_at    DateTime @updatedAt
-//   @@map("vendors")
-// }
-
-// - After making changes:
-
-// run db:migrate?
-
-// LATEST
-// prisma generate
-// // manually delete tables
-// prisma db push
-// knex seed:run
-
-
-
-
