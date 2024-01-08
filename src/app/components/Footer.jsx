@@ -1,6 +1,6 @@
 const Footer = ({}) => {
   return (
-    <footer className='footer bg-neutral p-10 text-neutral-content'>
+    <footer className='footer bg-neutral p-10 text-neutral-content flex justify-between'>
       <aside>
         <svg
           fill='#000000'
@@ -19,9 +19,9 @@ const Footer = ({}) => {
           Avondale Arizona, USA
         </p>
       </aside>
-      <nav>
+      <nav className="pt-10">
         <header className='footer-title'>Social</header>
-        <div className='grid grid-flow-col gap-4'>
+        <div className='flex flex-column'>
           {/* <a>
             <svg
               xmlns='http://www.w3.org/2000/svg'

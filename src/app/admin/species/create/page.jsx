@@ -41,7 +41,7 @@ const CreateNewSpecies = () => {
       common_name: '',
       scientific_name: '',
       description: '',
-      category: '',
+      category: 'PEACOCK',
     },
     onSubmit: handleSpeciesCreate,
     validationSchema,

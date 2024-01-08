@@ -28,7 +28,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang='en'>
-      <body className={`${poppins.variable} ${roboto_mono.variable}`}>
+      <body style={{fontFamily: '"Gill Sans Extrabold", sans-serif' }} className={`${poppins.variable} ${roboto_mono.variable}`}>
         <Providers>
           <NavBar />
           <div className='text-gray-600'>{children}</div>

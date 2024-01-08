@@ -1,0 +1,8 @@
+.link {
+  font-size: 28px;
+}
+
+.link:hover {
+  color: #2563EB; 
+  /* text-blue-600 is same */
+}

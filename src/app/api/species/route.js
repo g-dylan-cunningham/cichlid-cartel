@@ -12,8 +12,8 @@ export async function POST(request) {
       scientific_name: body.scientific_name,
       category: body.category,
       description: body.description,
-      region: "unasked",
-      subgroup: 'unasked'
+      // region: "unasked",
+      // subgroup: 'unasked'
     },
   });
   revalidatePath('/admin')

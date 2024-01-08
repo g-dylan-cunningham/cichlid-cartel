@@ -1,17 +1,23 @@
 'use client';
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image'
 import AdminLink from './AdminLink';
 import { enumArr, enumMap } from '@/app/config';
+import styles from './styles.module.css'
 
 const NavBar = ({}) => {
   const [isFishExpanded, setIsFishExpanded] = useState(false);
   const { categoryList } = enumArr;
   const { categoryMap } = enumMap;
-  // console.log(categoryMap, categoryList);
+
   return (
     <div className='navbar bg-base-100'>
       <div className='navbar-start'>
+        <Link href="/">
+          <Image src="/icon.png" alt="me" width="64" height="64" className='ml-5'/>
+        </Link>
+
         <div className='dropdown'>
           <div tabIndex={0} role='button' className='btn btn-ghost lg:hidden'>
             <svg
@@ -33,7 +39,7 @@ const NavBar = ({}) => {
             tabIndex={0}
             className='menu dropdown-content menu-sm z-[1] mt-3 w-52 rounded-box bg-base-100 p-2 shadow'
           >
-            <AdminLink />
+            <AdminLink/>
             <li>
               <Link href='/'>Fish</Link>
               {/* <ul className='p-2'>
@@ -63,11 +69,12 @@ const NavBar = ({}) => {
       </div>
 
       {/* NON MOBILE */}
+
       <div className='navbar-center hidden lg:flex'>
         <ul className='menu menu-horizontal px-1'>
-          <AdminLink />
+          <AdminLink classes={styles.link}/>
           <li>
-          <Link href='/shop'>Fish</Link>
+          <Link href='/shop' className={styles.link}>Fish</Link>
             {/* <details
               open={isFishExpanded}
               onClick={() => {
@@ -100,11 +107,14 @@ const NavBar = ({}) => {
             {/* </details> */}
           </li>
           <li>
-            <Link href='/'>Item 1</Link>
+            <Link href='/orders' className={styles.link}>Ordering</Link>
           </li>
 
           <li>
-            <Link href='/'>Item 3</Link>
+            <Link href='/faqs' className={styles.link}>FAQ</Link>
+          </li>
+          <li>
+            <Link href='/about' className={styles.link}>About</Link>
           </li>
         </ul>
       </div>

@@ -46,12 +46,8 @@ export default async function Shop({ searchParams }) {
   });
   return (
     <main>
-      <div className='flex'>
-        <aside className='container flex w-32 flex-col ml-5'>
-          <Filter />
-          {/* <div>1</div>
-          <div>1</div> */}
-        </aside>
+      <div className='flex md:flex-row flex-col'>
+        <Filter />
 
         {species.length === 0 ? (
           <div className='container flex'>
