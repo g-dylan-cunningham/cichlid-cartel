@@ -30,10 +30,11 @@ export default function RootLayout({ children }) {
     <html lang='en'>
       <body style={{fontFamily: '"Gill Sans Extrabold", sans-serif' }} className={`${poppins.variable} ${roboto_mono.variable}`}>
         <Providers>
-          <NavBar />
+          <NavBar/>
           <div className='text-gray-600'>{children}</div>
+          <Footer />
         </Providers>
-        <Footer />
+        
       </body>
     </html>
   );

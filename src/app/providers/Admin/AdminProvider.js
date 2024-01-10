@@ -1,6 +1,7 @@
 "use client";
 import { createContext, useState } from "react";
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation';
+import ModalComponent from '@/app/components/Modal';
 
 export const AdminContext = createContext(false);
 
@@ -33,7 +34,7 @@ const AdminProvider = ({ children, isValidToken }) => {
         <Modal setShowModal={setShowModal} setIsAdmin={setIsAdmin} />
       )}
       {children}
-      <div style={{ position: "fixed", left: "0", bottom: "0" }}>
+      <div style={{ position: "absolute", top: "10", left: "0", zIndex:"1001"}}>
         {!(isValidToken || isAdmin) ? (
           <button className="btn btn-ghost" onClick={() => setShowModal(true)}>
             Log In
@@ -51,6 +52,7 @@ const AdminProvider = ({ children, isValidToken }) => {
 const Modal = ({ setShowModal, setIsAdmin }) => {
   const router = useRouter();
   const [isLoginError, setIsLoginError] = useState(false);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -84,49 +86,30 @@ const Modal = ({ setShowModal, setIsAdmin }) => {
     }
   };
   return (
-    <>
-      <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-        <div className="relative my-6 mx-auto w-2/5 p-10">
-          {/*content*/}
-          <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-            {/*header*/}
-
-            <div className="flex flex-row items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-              <div className="flex flex-col">
-                <h3 className="text-3xl font-bold">Please Login</h3>
-              </div>
-
-              <button
-                className="p-1 ml-auto bg-transparent border-0 text-black opacity-60 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-                onClick={() => setShowModal(false)}
-              >
-                <span className="bg-transparent text-black opacity-60 h-6 w-6 text-2xl block outline-none focus:outline-none">
-                  X
-                </span>
-              </button>
-            </div>
-            {/*body*/}
-
-            {isLoginError && (
-              <div role="alert" className="alert alert-error m-5 w-5/6">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="stroke-current shrink-0 h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-                <span>Login failed. Please try again.</span>
-              </div>
-            )}
-
-            <form className="space-y-4 m-12 mt-3 mb-3" onSubmit={handleSubmit}>
+    <ModalComponent
+      heading="Please Login"
+      subheading=""
+      setShowModal={setShowModal}
+    >
+    {isLoginError && (
+      <div role="alert" className="alert alert-error m-5 w-5/6">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="stroke-current shrink-0 h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+        <span>Login failed. Please try again.</span>
+      </div>
+    )}
+<form className="space-y-4 m-12 mt-3 mb-3" onSubmit={handleSubmit}>
               <div>
                 <label className="label" htmlFor="email">
                   <span className="text-base label-text">Email</span>
@@ -168,11 +151,41 @@ const Modal = ({ setShowModal, setIsAdmin }) => {
                 </button>
               </div>
             </form>
-          </div>
-        </div>
-      </div>
-      <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
-    </>
+    </ModalComponent>
+
+
+
+    // <>
+    //   <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+    //     <div className="relative my-6 mx-auto w-2/5 p-10">
+    //       {/*content*/}
+    //       <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+    //         {/*header*/}
+
+    //         <div className="flex flex-row items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
+    //           <div className="flex flex-col">
+    //             <h3 className="text-3xl font-bold">Please Login</h3>
+    //           </div>
+
+    //           <button
+    //             className="p-1 ml-auto bg-transparent border-0 text-black opacity-60 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+    //             onClick={() => setShowModal(false)}
+    //           >
+    //             <span className="bg-transparent text-black opacity-60 h-6 w-6 text-2xl block outline-none focus:outline-none">
+    //               X
+    //             </span>
+    //           </button>
+    //         </div>
+    //         {/*body*/}
+
+            
+
+            
+    //       </div>
+    //     </div>
+    //   </div>
+    //   <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+    // </>
   );
 };
 

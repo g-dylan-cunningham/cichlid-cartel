@@ -31,7 +31,7 @@ const Admin = async () => {
               </th>
               <th>Species</th>
               {/* <th>Scientific Name</th> */}
-              <th>Description</th>
+              <th className='hidden md:table-cell'>Description</th>
               <th>Sizes</th>
               <th>Price</th>
               <th>Sex</th>
@@ -52,7 +52,7 @@ const Admin = async () => {
                 </td>
                 <td>
                   <div className='flex items-center gap-3'>
-                    <div className='avatar'>
+                    <div className='avatar hidden md:block'>
                       <div className='mask mask-squircle h-12 w-12'>
                         <Image
                           src={specie.images[0]?.thumbnail_url}
@@ -71,7 +71,12 @@ const Admin = async () => {
                   </div>
                 </td>
 
-                <td style={{ maxWidth: '10vw' }}>{specie.description}</td>
+                <td
+                  className='hidden md:table-cell'
+                  style={{ maxWidth: '10vw' }}
+                >
+                  {specie.description}
+                </td>
                 <td>
                   <TableElement specie={specie} property='size' />
                 </td>
@@ -99,24 +104,20 @@ const Admin = async () => {
             ))}
           </tbody>
           <tfoot>
-            <tr>
-              <td>
-                <Link
-                  href={`/admin/species/create`}
-                  className='link link-primary'
-                >
-                  Create Species
-                </Link>
-              </td>
-            </tr>
+            <tr></tr>
           </tfoot>
         </table>
+        <div className='mt-3 flex w-full justify-center'>
+          <Link href={`/admin/species/create`} className='link link-primary'>
+            Add New Species
+          </Link>
+        </div>
       </div>
 
       <div className='divider m-12'></div>
     </main>
   );
-}
+};
 
 const TableElement = ({ specie, property }) => {
   return (

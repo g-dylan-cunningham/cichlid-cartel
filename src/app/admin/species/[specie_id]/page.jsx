@@ -78,11 +78,11 @@ const SpeciesEdit = ({ params: { specie_id } }) => {
   };
   // console.log('formik', formik);
   return (
-    <main className='flex min-h-screen flex-col justify-between md:items-center'>
+    <main className='flex min-h-screen flex-col justify-between md:items-center mt-20'>
       {/* <Link href={`/admin`} className='link link-primary'>
         Dashboard
       </Link> */}
-      <div className='gap-8 md:flex md:flex-col lg:grid lg:grid-cols-2'>
+      <div className='gap-8 flex flex-col lg:grid lg:grid-cols-2'>
         {/* LEFT COLUMN */}
         <div className='flex flex-col space-y-3'>
           <div style={{ margin: '0 auto' }}>
@@ -139,16 +139,13 @@ const SpeciesEdit = ({ params: { specie_id } }) => {
           </div>
         </div>
         {/* RIGHT COLUMN   */}
-        <div>
+        <div className="sm:m-24">
           <ImageSide
             specie={specie}
             isEditable={isEditable}
             showModal={showModal}
             setShowModal={setShowModal}
           />
-          {/* <button className="btn" onClick={() => setShowModal(true)}>
-            Add Pics
-          </button> */}
         </div>
       </div>
 

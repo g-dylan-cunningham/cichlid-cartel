@@ -95,7 +95,7 @@ const ImageSide = ({ specie, isEditable, showModal, setShowModal }) => {
   }
 
   return (
-    <div>
+    <div style={{ margin: "0px auto"}}>
       <Link href={`/admin`} className='link link-primary'>
         Dashboard
       </Link>
@@ -133,7 +133,7 @@ const ImageSide = ({ specie, isEditable, showModal, setShowModal }) => {
                   className=''
                   style={{
                     position: 'relative',
-                    height: '200px',
+                    height: '100px',
                     flexGrow: '1',
                     padding: '5px',
                   }}
@@ -159,7 +159,7 @@ const ImageSide = ({ specie, isEditable, showModal, setShowModal }) => {
             {/* empty div is to help styling of last element */}
             <div
               className=''
-              style={{ height: '200px', flexGrow: '11', marginBottom: '20px' }}
+              style={{ height: '100px', flexGrow: '11', marginBottom: '20px' }}
             ></div>
           </div>
         </div>
