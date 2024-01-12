@@ -14,14 +14,26 @@ const SkuList = ({ specie, isDeleteEnabled, children }) => {
                 {/* head */}
                 <thead>
                   <tr>
-                    <th>
-                      <label>EDIT</label>
+                    <th className='table-cell'>
+                      <div className='pl-3'></div>
                     </th>
-                    <th>Species</th>
-                    <th>Size</th>
-                    <th>Price</th>
-                    <th>Sex</th>
-                    <th>Quantity</th>
+                    <th className='hidden md:table-cell'>Species</th>
+
+                    <th className='hidden md:table-cell'>Price</th>
+                    <th className='hidden md:table-cell'>Sex</th>
+
+                    <th className='table-cell md:hidden'>
+                      <div>Price /</div>
+                      <div>Sex</div>
+                    </th>
+
+                    <th className='hidden md:table-cell'>Size</th>
+                    <th className='hidden md:table-cell'>Quantity</th>
+
+                    <th className='table-cell md:hidden'>
+                      <div>Size /</div>
+                      <div>Quantity</div>
+                    </th>
                     {isDeleteEnabled && <th>Delete?</th>}
                   </tr>
                 </thead>
@@ -39,21 +51,37 @@ const SkuList = ({ specie, isDeleteEnabled, children }) => {
                       </td>
 
                       {/* Species */}
-                      <td>
-                        {specie.common_name} / {specie.scientific_name_name}
+                      <td className='hidden md:table-cell'>
+                        {specie.common_name}
+                        {specie.common_name && specie.scientific_name
+                          ? ' / '
+                          : ''}
+                        {specie.scientific_name}
+                      </td>
+
+                      {/* Price */}
+                      <td className='hidden md:table-cell'>{sku.price}</td>
+
+                      {/* Sex */}
+                      <td className='hidden md:table-cell'>{sku.sex}</td>
+
+                      {/* MOBILE */}
+                      <td className='table-cell md:hidden'>
+                        <div>${sku.price}</div>
+                        <div>{sku.sex}</div>
                       </td>
 
                       {/* Size */}
-                      <td>{sku.size}</td>
-
-                      {/* Price */}
-                      <td>{sku.price}</td>
-
-                      {/* Sex */}
-                      <td>{sku.sex}</td>
+                      <td className='hidden md:table-cell text-center'>{sku.size}</td>
 
                       {/* Quantity */}
-                      <td>{sku.quantity}</td>
+                      <td className='hidden md:table-cell text-center'>{sku.quantity}</td>
+
+                      {/* MOBILE */}
+                      <td className='table-cell md:hidden'>
+                        <div className='text-center'>{sku.size}</div>
+                        <div className='text-center'>{sku.quantity}</div>
+                      </td>
 
                       {/* actions */}
                       {isDeleteEnabled && (
@@ -66,7 +94,7 @@ const SkuList = ({ specie, isDeleteEnabled, children }) => {
                             name='sku_id'
                             value={sku.sku_id}
                           >
-                            Delete Sku
+                            Delete
                           </button>
                         </td>
                       )}
@@ -78,10 +106,10 @@ const SkuList = ({ specie, isDeleteEnabled, children }) => {
           </form>
         </div>
       )}
-      <div className='flex flex-row flex-wrap mb-5 justify-center'>
+      <div className='my-5 flex flex-row flex-wrap justify-center'>
         {children}
         <Link
-          className='btn btn-outline btn-secondary btn-wide'
+          className='btn-solid btn btn-accent btn-wide mx-2 mt-3 md:mt-2'
           href={`/admin/sku/create/${specie.specie_id}`}
         >
           Add another SKU

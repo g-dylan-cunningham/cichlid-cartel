@@ -5,7 +5,9 @@ import React, { useState, useContext } from 'react';
 const Modal = ({ setShowModal, heading, subheading, children }) => {
   return (
     <>
-      <div className='fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overflow-x-hidden outline-none focus:outline-none'>
+      <div className='fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overflow-x-hidden outline-none focus:outline-none overflow-hidden'
+        style={{ top: '60px' }}
+      >
         <div className='relative m-1 md:mx-auto my-6 xl:w-1/3 lg:w-2/4 md:w-3/4 w-screen p-5 md:p-10'>
           {/*content*/}
           <div className='relative flex w-full flex-col rounded-lg border-0 bg-white shadow-lg outline-none focus:outline-none'>

@@ -27,7 +27,7 @@ export const fields = [
     component: 'TextArea',
     label: 'Description',
     type: 'textarea',
-    cols: 50,
+    cols: 30,
     rows: 7,
     name: 'description',
   },

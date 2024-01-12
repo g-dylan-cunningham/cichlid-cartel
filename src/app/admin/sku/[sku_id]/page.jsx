@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useFormik } from 'formik';
 import { Field } from '@/app/components/forms';
+import { Main, BackButton } from '@/app/components';
 import formValidation from '@/app/admin/sku/formValidation';
 import { fields } from '@/app/admin/sku/skuConfig';
 import isAuth from '@/app/providers/Admin/isAuthHoc';
@@ -63,6 +64,29 @@ const SkuCreate = ({ params: { sku_id } }) => {
     }
   };
 
+  const handleSkuDelete = async () => {
+    debugger
+    fetch('/api/skus', {
+      method: "DELETE",
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        sku_id: sku.sku_id,
+        specie: sku.species.specie_id
+      })
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log('deleted sku', data)
+        // setIsAdmin(false)
+        router.push(`/admin/species/${sku?.species?.specie_id}`)
+      })
+      .catch((e) => {
+        console.log(e)
+      });
+  }
+
   const formik = useFormik({
     enableReinitialize: true, // need this to take latest values
     initialValues: {
@@ -87,20 +111,27 @@ const SkuCreate = ({ params: { sku_id } }) => {
     }
   };
 
-  if (isSkuLoading) {
-    return <div>sku loading...</div>;
-  }
+  if (isSkuLoading) 
+    return (
+      <Main>
+        <h1 className='text-2xl font-bold capitalize'>Edit Sku:</h1>
+        <div className='skeleton my-1 h-6 w-36'></div>
+        <div className='skeleton my-1 h-8 w-48'></div>
+        <div className='skeleton my-3 h-12 w-64'></div>
+        <div className='skeleton my-3 h-12 w-64'></div>
+        <div className='skeleton my-3 h-12 w-64'></div>
+        <div className='skeleton my-3 h-48 w-64'></div>
+      </Main>
+    );
 
   return (
-    <main className='flex min-h-screen flex-col items-center justify-between p-24'>
-      <Link href={`/admin`} className='link link-primary'>
-        Dashboard
-      </Link>
-      <h1 className='text-2xl font-bold capitalize'>EDIT EXISTING SKU: </h1>
-      <h1 className='text-l font-bold'>{sku?.species?.common_name}</h1>
-      <h2 className='text-lg font-bold opacity-50'>
+    <Main>
+      <BackButton />
+      <h1 className='text-2xl font-bold capitalize'>Edit Sku:</h1>
+      <h2 className='text-l font-bold'>{sku?.species?.common_name}</h2>
+      <h3 className='text-lg font-bold opacity-50'>
         {sku?.species?.scientific_name}
-      </h2>
+      </h3>
 
       <form
         onSubmit={formik.handleSubmit}
@@ -118,19 +149,22 @@ const SkuCreate = ({ params: { sku_id } }) => {
         {/* BUTTONS */}
 
         <div className='mt-5 flex flex-row justify-between'>
-          <Link
+          {/* <Link
             href={`/admin/species/${sku?.species?.specie_id}`}
             className='btn btn-outline btn-secondary'
-          >
-            Cancel
-          </Link>
+          > */}
+          <button className='btn btn-error' onClick={handleSkuDelete}>
+          Delete
+          </button>
+            {/* 
+          </Link> */}
 
           <button type='submit' className='btn btn-primary btn-active'>
             Save
           </button>
         </div>
       </form>
-    </main>
+    </Main>
   );
 };
 

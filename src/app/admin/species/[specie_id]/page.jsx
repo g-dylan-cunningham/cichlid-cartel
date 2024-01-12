@@ -7,9 +7,10 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useFormik } from 'formik';
 import { Field, Button } from '@/app/components/forms';
+import { BackButton, Main } from '@/app/components'
+import SkuList from '@/app/admin/components/SkuList';
 import { fields } from '../speciesConfig';
 import validationSchema from '../formValidation'
-import SkuList from '@/app/admin/components/SkuList';
 import ImageSide from './ImageSide';
 
 const SpeciesEdit = ({ params: { specie_id } }) => {
@@ -68,7 +69,15 @@ const SpeciesEdit = ({ params: { specie_id } }) => {
   });
 
   if (isLoading) return (
-    <div className="skeleton w-32 h-32"></div>
+    <div className='flex justify-center'>
+      <div className='flex flex-col justify-center py-5'>
+      <h1 className='text-4xl mt-6 mb-2'>Species Update</h1>
+        <div className="skeleton w-64 h-12 my-3"></div>
+        <div className="skeleton w-64 h-12 my-3"></div>
+        <div className="skeleton w-64 h-12 my-3"></div>
+        <div className="skeleton w-64 h-48 my-3"></div>
+      </div>
+    </div>
   );
   if (!specie) return <p>No species data</p>;
 
@@ -78,10 +87,11 @@ const SpeciesEdit = ({ params: { specie_id } }) => {
   };
   // console.log('formik', formik);
   return (
-    <main className='flex min-h-screen flex-col justify-between md:items-center mt-20'>
-      {/* <Link href={`/admin`} className='link link-primary'>
-        Dashboard
-      </Link> */}
+    <Main>
+      <BackButton href="/admin">
+        <div className='leading-tight'>Dash</div><div className='leading-tight'>board</div>
+      </BackButton>
+      <h1 className='text-4xl mb-2'>Species Update</h1>
       <div className='gap-8 flex flex-col lg:grid lg:grid-cols-2'>
         {/* LEFT COLUMN */}
         <div className='flex flex-col space-y-3'>
@@ -107,12 +117,6 @@ const SpeciesEdit = ({ params: { specie_id } }) => {
                   <button type='submit' className='btn btn-primary btn-active'>
                     Save
                   </button>
-                  {/* <Button
-                    type='submit'
-                    variant='primary'
-                    btnClass=''
-                    text='Save'
-                  /> */}
                 </div>
               </form>
             ) : (
@@ -139,7 +143,7 @@ const SpeciesEdit = ({ params: { specie_id } }) => {
           </div>
         </div>
         {/* RIGHT COLUMN   */}
-        <div className="sm:m-24">
+        <div className="">
           <ImageSide
             specie={specie}
             isEditable={isEditable}
@@ -152,15 +156,19 @@ const SpeciesEdit = ({ params: { specie_id } }) => {
       <div className='divider m-8'></div>
 
       {specie?.skus?.length < 1 ? (
-        <Link href={`/admin/sku/create/${specie.specie_id}`}>
-          add some skus
-        </Link>
+        <div className='align-items flex flex-col'>
+          <h4 className='mb-4'>You have no SKUs for this species</h4>
+          <Link href={`/admin/sku/create/${specie.specie_id}`} className='btn btn-accent'>
+            Add SKUs
+          </Link>
+        </div>
+
       ) : (
         <>
           <h3 className='text-xl'>SKUs associated with this species:</h3>
           <SkuList specie={specie} isDeleteEnabled={false}>
             <Link
-              className='btn btn-outline btn-secondary btn-wide'
+              className='btn btn-outline btn-secondary btn-wide m-2'
               href={`/admin/sku/list/${specie.specie_id}`}
             >
               SKU details
@@ -168,7 +176,7 @@ const SpeciesEdit = ({ params: { specie_id } }) => {
           </SkuList>
         </>
       )}
-    </main>
+    </Main>
   );
 };
 

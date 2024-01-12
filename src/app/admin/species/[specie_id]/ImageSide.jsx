@@ -91,11 +91,11 @@ const ImageSide = ({ specie, isEditable, showModal, setShowModal }) => {
     return <div>images loading...</div>;
   }
   if (isEditable) {
-    return <div>first, edit species info, then upload photos</div>;
+    return <div>* First, save species info, then upload photos</div>;
   }
 
   return (
-    <div style={{ margin: "0px auto"}}>
+    <div className='max-w-screen-sm' style={{ margin: "0px auto"}}>
       <Link href={`/admin`} className='link link-primary'>
         Dashboard
       </Link>
@@ -133,8 +133,8 @@ const ImageSide = ({ specie, isEditable, showModal, setShowModal }) => {
                   className=''
                   style={{
                     position: 'relative',
-                    height: '100px',
-                    flexGrow: '1',
+                    // height: '100px',
+                    // flexGrow: '1',
                     padding: '5px',
                   }}
                   key={img.image_id}
@@ -143,7 +143,7 @@ const ImageSide = ({ specie, isEditable, showModal, setShowModal }) => {
                   <Image
                     onClick={() => handleThumbnailClick(img)}
                     style={{
-                      borderRadius: '10px',
+                      borderRadius: '7px',
                       maxHeight: '100%',
                       minWidth: '100%',
                       objectFit: 'cover',
@@ -171,7 +171,7 @@ const ImageSide = ({ specie, isEditable, showModal, setShowModal }) => {
           </h2>
         </div>
       )}
-      <div className='my-5 flex justify-end'>
+      <div className='mt-5 flex justify-end'>
         <Button
           type='button'
           variant='secondary'

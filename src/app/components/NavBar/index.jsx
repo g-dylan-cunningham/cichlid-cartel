@@ -19,15 +19,15 @@ const NavBar = ({}) => {
       <div
         className='w-screen bg-blue-400'
         style={{
-          position: 'fixed',
-          top: '0',
+          // position: 'fixed',
+          // top: '0',
           height: '64px',
           // backgroundColor: 'grey',
           zIndex: '1000',
           opacity: '1',
         }}
       >
-        <div className='navbar-start w-2/5'>
+        <div className='w-2/6'>
           <Link href='/' className='hidden md:block'>
             <Image
               style={{ margin: '-10px -20px 0px 10px'}}

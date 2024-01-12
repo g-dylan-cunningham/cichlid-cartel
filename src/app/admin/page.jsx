@@ -1,6 +1,7 @@
 import prisma from '@/modules/prisma';
 import Link from 'next/link';
 import Image from 'next/image';
+import { Main } from '@/app/components';
 
 const Admin = async () => {
   const species = await prisma.species.findMany({
@@ -18,89 +19,144 @@ const Admin = async () => {
     },
   });
   return (
-    <main className='flex min-h-screen flex-col items-center justify-between p-24'>
-      <h1 className='text-xl'>Cichlid Cartel Store:</h1>
-
+    <Main>
+      <h1 className='mb-4 text-4xl'>DASHBOARD</h1>
       <div className='overflow-x-auto'>
         <table className='table table-pin-rows table-pin-cols table-xs'>
           {/* head */}
-          <thead>
+          <thead className='hidden md:table-header-group'>
             <tr className='m-6'>
-              <th>
-                <label>EDIT</label>
+              <th className='hidden md:table-cell'>
+                <label></label>
               </th>
-              <th>Species</th>
-              {/* <th>Scientific Name</th> */}
+              <th className='hidden md:table-cell'>Species</th>
               <th className='hidden md:table-cell'>Description</th>
-              <th>Sizes</th>
-              <th>Price</th>
-              <th>Sex</th>
-              <th>Quantity</th>
-              <th>Actions</th>
+              <th className='hidden md:table-cell'>Sizes</th>
+              <th className='hidden md:table-cell'>Price</th>
+              <th className='hidden md:table-cell'>Sex</th>
+              <th className='hidden md:table-cell'>Quantity</th>
+              <th className='hidden md:table-cell'>Actions</th>
             </tr>
           </thead>
           <tbody>
             {species.map((specie) => (
-              <tr key={specie.specie_id}>
-                <td>
-                  <Link
-                    href={`/admin/species/${specie.specie_id}`}
-                    className='link link-primary'
-                  >
-                    Edit
-                  </Link>
-                </td>
-                <td>
-                  <div className='flex items-center gap-3'>
-                    <div className='avatar hidden md:block'>
-                      <div className='mask mask-squircle h-12 w-12'>
-                        <Image
-                          src={specie.images[0]?.thumbnail_url}
-                          alt=''
-                          width={30}
-                          height={30}
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <div className='font-bold'>{specie.common_name}</div>
-                      <div className='text-sm opacity-50'>
-                        {specie.scientific_name}
-                      </div>
-                    </div>
-                  </div>
-                </td>
-
-                <td
-                  className='hidden md:table-cell'
-                  style={{ maxWidth: '10vw' }}
+              <>
+                <tr
+                  key={specie.specie_id}
+                  className='DESKTOP hidden md:table-row'
                 >
-                  {specie.description}
-                </td>
-                <td>
-                  <TableElement specie={specie} property='size' />
-                </td>
-                <td>
-                  <TableElement specie={specie} property='price' />
-                </td>
-                <td>
-                  <TableElement specie={specie} property='sex' />
-                </td>
-                <td>
-                  <TableElement specie={specie} property='quantity' />
-                </td>
-                <td>
-                  <Link
-                    href={`/admin/sku//create/${specie.specie_id}`}
-                    className='badge badge-accent badge-sm block'
+                  <td>
+                    <Link
+                      href={`/admin/species/${specie.specie_id}`}
+                      className='badge badge-ghost badge-sm hover:bg-blue-400 hover:font-bold hover:underline'
+                    >
+                      EDIT
+                    </Link>
+                  </td>
+                  <td>
+                    <div className='flex items-center gap-3'>
+                      <div className='avatar'>
+                        <div className='mask mask-squircle h-12 w-12'>
+                          <Image
+                            src={specie.images[0]?.thumbnail_url}
+                            alt=''
+                            width={30}
+                            height={30}
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <div className='font-bold'>{specie.common_name}</div>
+                        <div className='text-sm opacity-50'>
+                          {specie.scientific_name}
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+
+                  <td
+                    className='hidden md:table-cell'
+                    style={{ maxWidth: '10vw' }}
                   >
-                    Add New
-                  </Link>{' '}
-                  <div className='badge badge-warning badge-sm mt-2 block'>
-                    Delete Sku
-                  </div>
-                </td>
-              </tr>
+                    {specie.description}
+                  </td>
+                  <td className='hidden md:table-cell'>
+                    <TableElement specie={specie} property='size' />
+                  </td>
+                  <td className='hidden md:table-cell'>
+                    <TableElement specie={specie} property='price' />
+                  </td>
+                  <td className='hidden md:table-cell'>
+                    <TableElement specie={specie} property='sex' />
+                  </td>
+                  <td className='hidden md:table-cell'>
+                    <TableElement specie={specie} property='quantity' />
+                  </td>
+                  <td className='hidden md:table-cell'>
+                    <Link
+                      href={`/admin/sku//create/${specie.specie_id}`}
+                      className='badge badge-accent badge-sm block hover:bg-green-200 hover:font-bold hover:underline'
+                    >
+                      Add New
+                    </Link>
+                  </td>
+                </tr>
+                <tr
+                  key={specie.specie_id}
+                  className='MOBILE table-row md:hidden'
+                >
+                  <td>
+                    <Link
+                      href={`/admin/species/${specie.specie_id}`}
+                      className='badge badge-ghost badge-sm'
+                    >
+                      EDIT
+                    </Link>
+                  </td>
+                  <td className='pt-2 align-top'>
+                    {specie.common_name ? (
+                      <div className='font-bold'>{specie.common_name}</div>
+                    ) : (
+                      <div className='font-bold'>{specie.scientific_name}</div>
+                    )}
+                  </td>
+                  <td className='space-between flex w-full align-top'>
+                    <tbody className='w-full'>
+                      <tr className='w-full'>
+                        <td className='w-1/4'>
+                          <TableElement
+                            specie={specie}
+                            property='size'
+                            isMobile={true}
+                          />
+                        </td>
+                        <td className='w-1/4'>
+                          <TableElement
+                            specie={specie}
+                            property='price'
+                            isMobile={true}
+                          />
+                        </td>
+                        <td className='w-1/4'>
+                          <TableElement
+                            specie={specie}
+                            property='sex'
+                            isMobile={true}
+                          />
+                        </td>
+                        <td className='w-1/4'>
+                          <TableElement
+                            specie={specie}
+                            property='quantity'
+                            isMobile={true}
+                          />
+                        </td>
+                      </tr>
+                    </tbody>
+                  </td>
+                  {/* </div> */}
+                </tr>
+              </>
             ))}
           </tbody>
           <tfoot>
@@ -115,11 +171,25 @@ const Admin = async () => {
       </div>
 
       <div className='divider m-12'></div>
-    </main>
+    </Main>
   );
 };
 
-const TableElement = ({ specie, property }) => {
+const TableElement = ({ specie, property, isMobile }) => {
+  if (isMobile) {
+    return (
+      <ul className='flex flex-col'>
+        {specie.skus.map((sku, i) => {
+          return (
+            <li className='grow' key={sku.sku_id}>
+              {sku[property]}
+            </li>
+          );
+        })}
+      </ul>
+    );
+  }
+
   return (
     <ul>
       {specie.skus.map((sku, i) => {

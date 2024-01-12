@@ -51,8 +51,8 @@ const Filter = () => {
   };
 
   return (
-    <div className='m-6'>
-      <button type='button' onClick={() => setIsVisible(!isVisible)}>
+    <div className='my-6 mx-3'>
+      <button type='button' onClick={() => setIsVisible(!isVisible)} className='hidden md:inline-block'>
         <svg
           xmlns='http://www.w3.org/2000/svg'
           fill='none'
@@ -77,10 +77,11 @@ const Filter = () => {
           flex: '0 0 auto',
           opacity: isVisible ? 1 : 0,
           width: isVisible ? '200px' : '0px',
+          height: isVisible ? 'auto' : '0px',
           transform: "translate('-20px')"
         }}
       >
-        <h5 className='mt-5'>Filter by Category:</h5>
+        <h5 className='mt-1'>Search Categories:</h5>
         <form onSubmit={handleSubmit}>
           <ul className='ml-2 list-none'>
             {categoryList.map((category) => {

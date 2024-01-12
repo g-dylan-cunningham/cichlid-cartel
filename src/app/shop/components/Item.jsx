@@ -17,18 +17,19 @@ const Item = ({ specie, isModalOpen }) => {
       key={specie.specie_id}
       className={containerClass}
     >
-      <Link href={`/shop?specie=${specie.specie_id}`} className='w-full flex justify-center'>
+      <Link href={`/shop/specie/${specie.specie_id}`} className='w-full flex justify-center'>
         <Image
           
           src={specie.images[0]?.full_image_url}
           height={350 / ratio}
           width={350}
-          layout={'fixed'}
+          // layout={'fixed'}
           // objectFit={'contain'}
           // className={imageClass}
           onLoadingComplete={({ naturalWidth, naturalHeight }) =>
             setRatio(naturalWidth / naturalHeight)
           }
+          // className='z-0'
           alt='asdf'
         />
       </Link>

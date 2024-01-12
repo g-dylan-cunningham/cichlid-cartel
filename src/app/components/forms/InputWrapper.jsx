@@ -2,7 +2,7 @@ import React from 'react';
 
 const InputWrapper = ({ label, formik, name, children }) => {
   return (
-    <label className='form-control w-48 w-full'>
+    <label className='form-control w-full'>
       <div className='label'>
         <span className='label-text font-sans'>{label}</span>
       </div>

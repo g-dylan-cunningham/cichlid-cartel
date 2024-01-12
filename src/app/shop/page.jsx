@@ -2,6 +2,7 @@ import Link from 'next/link';
 import prisma from '@/modules/prisma';
 import Item from './components/Item';
 import Filter from './components/Filter';
+import { Main } from '@/app/components'
 import { enumArr } from '@/app/config';
 
 export default async function Shop({ searchParams }) {
@@ -45,7 +46,8 @@ export default async function Shop({ searchParams }) {
     },
   });
   return (
-    <main>
+    <Main>
+    {/* <main> */}
       <div className='flex md:flex-row flex-col'>
         <Filter />
 
@@ -66,6 +68,6 @@ export default async function Shop({ searchParams }) {
           </div>
         )}
       </div>
-    </main>
+    </Main>
   );
 }

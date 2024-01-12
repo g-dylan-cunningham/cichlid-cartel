@@ -8,7 +8,7 @@ const Select = ({ item, formik, handleChange }) => {
       <select
         disabled={disabled}
         name={name}
-        className={`select select-bordered w-full max-w-xs
+        className={`select select-bordered w-full 
               ${
                 formik.errors[name]
                   ? 'border border-red-400 focus:border-red-400'

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useFormik } from 'formik';
 import { Field } from '@/app/components/forms';
+import { Main } from '@/app/components';
 import formValidation from '@/app/admin/sku/formValidation';
 import { fields } from '@/app/admin/sku/skuConfig';
 
@@ -36,6 +37,7 @@ const SkuCreate = ({ params: { specie_id } }) => {
   const handleSkuCreate = async (values) => {
     const payload = { ...values, specie_id };
     setIsSkuLoading(true);
+    debugger;
     const res = await fetch('/api/skus', {
       method: 'POST',
       headers: {
@@ -56,8 +58,6 @@ const SkuCreate = ({ params: { specie_id } }) => {
         console.log(e);
       });
   };
-
-
 
   const formik = useFormik({
     enableReinitialize: true, // need this to take latest values
@@ -83,16 +83,24 @@ const SkuCreate = ({ params: { specie_id } }) => {
     }
   };
 
-  if (isSpecieLoading) {
-    return <div>specie loading...</div>;
-  }
-
+  if (isSpecieLoading)
+    return (
+      <Main>
+        <h1 className='text-2xl font-bold capitalize'>Create Sku: </h1>
+        <div className='skeleton my-1 h-6 w-36'></div>
+        <div className='skeleton my-1 h-8 w-48'></div>
+        <div className='skeleton my-3 h-12 w-64'></div>
+        <div className='skeleton my-3 h-12 w-64'></div>
+        <div className='skeleton my-3 h-12 w-64'></div>
+        <div className='skeleton my-3 h-48 w-64'></div>
+      </Main>
+    );
 
   return (
-    <main className='flex min-h-screen flex-col items-center justify-between p-24'>
+    <Main>
       <h1 className='text-2xl font-bold capitalize'>Create Sku: </h1>
-      <h1 className='text-l font-bold'>{specie.common_name}</h1>
-      <h2 className='text-lg font-bold opacity-50'>{specie.scientific_name}</h2>
+      <h2 className='text-l font-bold'>{specie.common_name}</h2>
+      <h3 className='text-lg font-bold opacity-50'>{specie.scientific_name}</h3>
 
       <form
         onSubmit={formik.handleSubmit}
@@ -121,9 +129,8 @@ const SkuCreate = ({ params: { specie_id } }) => {
           </button>
         </div>
       </form>
-    </main>
+    </Main>
   );
 };
 
 export default SkuCreate;
-

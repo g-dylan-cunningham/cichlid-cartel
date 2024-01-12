@@ -1,5 +1,6 @@
 import prisma from '@/modules/prisma';
 import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
 import { NextResponse } from 'next/server';
 import { updateSku } from '@/modules/prisma/actions';
 
@@ -60,6 +61,7 @@ export async function POST(request) {
     },
   });
   revalidatePath(`/admin/sku/list/${specie_id}`);
+  // redirect(`/admin/sku/list/${specie_id}`)
   return NextResponse.json(sku);
 }
 
@@ -82,4 +84,27 @@ export async function PATCH(request, response) {
     },
   });
   return NextResponse.json(sku);
+}
+
+export async function DELETE(request, response) {
+  try {
+    const body = await request.json();
+    console.log('body', body)
+    const { sku_id, specie_id } = body;
+  
+    const sku = await prisma.sku.delete({
+      where: {
+        sku_id,
+      }
+    });
+    revalidatePath(`/admin/species/${specie_id}`);
+    revalidatePath(`/admin/sku/list/${specie_id}`);
+    
+    // redirect(`/admin/sku/create/${data.specie_id}`);
+    return NextResponse.json({});
+  } catch (e) {
+    console.log(e);
+    return NextResponse.json({});
+  }
+
 }

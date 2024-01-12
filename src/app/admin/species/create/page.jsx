@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useFormik } from 'formik';
 import { Field, Button } from '@/app/components/forms';
+import { Main } from '@/app/components'
 import { fields } from '../speciesConfig';
 import validationSchema from '../formValidation';
 
@@ -54,7 +55,7 @@ const CreateNewSpecies = () => {
 
   console.log(formik);
   return (
-    <main className='flex min-h-screen flex-col items-center justify-between p-24'>
+    <Main>
       <h1 className='text-xl'>Add New Species:</h1>
 
       <div className='overflow-x-auto'>
@@ -84,7 +85,7 @@ const CreateNewSpecies = () => {
           </div>
         </form>
       </div>
-    </main>
+    </Main>
   );
 };
 
