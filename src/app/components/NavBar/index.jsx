@@ -19,15 +19,12 @@ const NavBar = ({}) => {
       <div
         className='w-screen bg-blue-400'
         style={{
-          // position: 'fixed',
-          // top: '0',
           height: '64px',
-          // backgroundColor: 'grey',
           zIndex: '1000',
           opacity: '1',
         }}
       >
-        <div className='w-2/6'>
+        <div className='w-1/5'>
           <Link href='/' className='hidden md:block'>
             <Image
               style={{ margin: '-10px -20px 0px 10px'}}
@@ -66,7 +63,7 @@ const NavBar = ({}) => {
             {isFishExpanded && (
               <ul
                 tabIndex={0}
-                className='menu dropdown-content menu-sm z-[1] mt-3 w-52 rounded-box bg-base-100 p-2 shadow'
+                className={`${styles.mobileNavMenu} menu dropdown-content menu-sm z-[1] mt-3 w-52 rounded-box bg-base-100 p-2 shadow`}
               >
                 <AdminLink classes={styles.link} toggle={toggle} />
                 <li>
@@ -96,8 +93,8 @@ const NavBar = ({}) => {
         </div>
 
         {/* NON MOBILE */}
-        <div className='navbar-center hidden lg:flex'>
-          <ul className='menu menu-horizontal px-1'>
+        <div className='navbar-center md:w-3/5 hidden md:flex'>
+          <ul className='menu menu-horizontal px-1 w-full justify-evenly lg:justify-center'>
             <AdminLink classes={styles.link} toggle={toggle} />
             <li>
               <Link href='/shop' className={styles.link} onClick={toggle}>
