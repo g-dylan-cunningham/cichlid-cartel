@@ -1,0 +1,12 @@
+.sizeInfo {
+  display: none;
+}
+    
+#sizeInfoIcon:hover + .sizeInfo {
+  display: block;
+  color: red;
+  height: 5em;
+  width: 5em;
+  border-radius: 50%;
+  word-wrap: break-word;
+}

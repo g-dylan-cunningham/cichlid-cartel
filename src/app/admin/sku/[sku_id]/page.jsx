@@ -65,7 +65,6 @@ const SkuCreate = ({ params: { sku_id } }) => {
   };
 
   const handleSkuDelete = async () => {
-    debugger
     fetch('/api/skus', {
       method: "DELETE",
       headers: {

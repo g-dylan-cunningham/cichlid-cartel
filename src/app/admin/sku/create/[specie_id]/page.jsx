@@ -37,7 +37,6 @@ const SkuCreate = ({ params: { specie_id } }) => {
   const handleSkuCreate = async (values) => {
     const payload = { ...values, specie_id };
     setIsSkuLoading(true);
-    debugger;
     const res = await fetch('/api/skus', {
       method: 'POST',
       headers: {

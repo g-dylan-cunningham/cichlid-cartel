@@ -3,7 +3,6 @@ import InputWrapper from './InputWrapper';
 
 const Input = ({ item, formik, handleChange, children }) => {
   const { name, type, label, ...rest } = item;
-  // debugger
   return (
     <InputWrapper label={label} formik={formik} name={name}>
       <input
