@@ -178,7 +178,7 @@ const Admin = async () => {
           </tfoot>
         </table>
         <div className='mt-3 flex w-full justify-center'>
-          <Link href={`/admin/species/create`} className='link link-primary'>
+          <Link href={`/admin/species/create`} className='btn btn-primary mt-3'>
             Add New Species
           </Link>
         </div>

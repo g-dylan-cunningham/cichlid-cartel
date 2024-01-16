@@ -5,7 +5,7 @@ const countDecimals = (value) => {
 
 const getMinSkuPrice = (skus) => {
   const priceArr = skus.map(sku => parseFloat(sku.price, 10))
-  return Math.min(...priceArr);
+  return "$" + Math.min(...priceArr);
 }
 export {
   countDecimals,

@@ -27,11 +27,12 @@ const Item = ({ specie, isModalOpen }) => {
             setRatio(naturalWidth / naturalHeight)
           }
           alt='fish profile pic'
+          style={specie.skus.length === 0 ? { opacity: "0.4"} : {}}
         />
       </Link>
       <div className='mt-2'>
         <div className={labelClass}>specie: {specie.common_name}</div>
-        <div>From: ${getMinSkuPrice(specie.skus)}</div>
+        <div>{specie.skus.length > 0 ? `From: ${getMinSkuPrice(specie.skus)}` : <div>Out of Stock</div>}</div>
       </div>
       {isModalOpen && <Modal specie={specie} />}
     </div>

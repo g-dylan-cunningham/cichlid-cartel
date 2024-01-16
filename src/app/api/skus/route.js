@@ -5,6 +5,7 @@ import { NextResponse } from 'next/server';
 import { updateSku } from '@/modules/prisma/actions';
 
 export async function GET(request) {
+  console.log('prisma', prisma) // are we using this now?
   // get single species
   const sku_id = request.nextUrl.searchParams.get(['sku_id']);
 
@@ -18,6 +19,7 @@ export async function GET(request) {
 }
 
 export async function POST(request) {
+  // console.log('prisma', prisma)
   const body = await request.json();
   const { specie_id, size, price, sex, quantity } = body;
 

@@ -1,8 +1,9 @@
-'use client';
-import React, { useState, useEffect, useMemo } from 'react';
-import Resizer from 'react-image-file-resizer';
-import Image from 'next/image';
-import { Button } from '@/app/components/forms';
+"use client";
+import React, { useState, useEffect, useMemo } from "react";
+import Resizer from "react-image-file-resizer";
+import Image from "next/image";
+import { Button } from "@/app/components/forms";
+import styles from "./styles.module.css";
 
 const ImageUpload = ({
   specie,
@@ -18,18 +19,18 @@ const ImageUpload = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!file) {
-      alert('Please select a file to upload.');
+      alert("Please select a file to upload.");
       return;
     }
     setUploading(true);
-    let matchingFullImageKey = ''; // process full image before thumbnail and save to key to the thumbnail image model. This is useful for deleting.
+    let matchingFullImageKey = ""; // process full image before thumbnail and save to key to the thumbnail image model. This is useful for deleting.
 
     const uploadImageToAws = async (file, isThumbnail = false) => {
       const getImageUrls = ({ isThumbnail }) => {
-        const s3Domain = 'https://cichlid-cartel.s3.us-west-1.amazonaws.com/';
+        const s3Domain = "https://cichlid-cartel.s3.us-west-1.amazonaws.com/";
         const namespaceSegment = process.env.NEXT_PUBLIC_S3_FOLDER;
         const speciesSegment = `${specie.specie_id}/`;
-        const typeSegment = isThumbnail ? 'thumbnail/' : 'full/';
+        const typeSegment = isThumbnail ? "thumbnail/" : "full/";
         const path =
           namespaceSegment + speciesSegment + typeSegment + file.name;
 
@@ -40,19 +41,17 @@ const ImageUpload = ({
       };
 
       // https://cichlid-cartel.s3.us-west-1.amazonaws.com/cichlid-cartel/clqeem8js0000g7us2ln2cp5m/thumbnail/eyebiter1.png
-      const response = await fetch('/api/aws',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            key: getImageUrls({ isThumbnail }).path,
-            contentType: file.type,
-            // specie_id: specie.specie_id,
-          }),
-        }
-      );
+      const response = await fetch("/api/aws", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          key: getImageUrls({ isThumbnail }).path,
+          contentType: file.type,
+          // specie_id: specie.specie_id,
+        }),
+      });
 
       if (response.ok) {
         const { url, fields } = await response.json();
@@ -60,12 +59,12 @@ const ImageUpload = ({
         Object.entries(fields).forEach(([key, value]) => {
           formData.append(key, value);
         });
-        formData.append('file', file);
+        formData.append("file", file);
 
         // post to AWS using the presigned url
         try {
           const uploadResponse = await fetch(url, {
-            method: 'POST',
+            method: "POST",
             body: formData,
           });
 
@@ -77,10 +76,10 @@ const ImageUpload = ({
             } else if (associatedImgs?.length === 1) {
               is_secondary = true;
             }
-            const prismaResp = await fetch('/api/images', {
-              method: 'POST',
+            const prismaResp = await fetch("/api/images", {
+              method: "POST",
               headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
               },
               body: JSON.stringify({
                 // filename: file.name,
@@ -116,14 +115,14 @@ const ImageUpload = ({
             e.target.reset();
             return;
           } else {
-            console.error('S3 Upload Error:', uploadResponse);
-            alert('Upload failed.');
+            console.error("S3 Upload Error:", uploadResponse);
+            alert("Upload failed.");
           }
         } catch (error) {
-          console.log('uploadResponse error', error);
+          console.log("uploadResponse error", error);
         }
       } else {
-        alert('Failed to get pre-signed URL.');
+        alert("Failed to get pre-signed URL.");
       }
     };
 
@@ -141,13 +140,13 @@ const ImageUpload = ({
           file,
           200,
           200,
-          'png',
+          "png",
           10,
           0,
           (uri) => {
             resolve(uri);
           },
-          'file'
+          "file",
         );
       });
     }
@@ -157,13 +156,13 @@ const ImageUpload = ({
         file,
         900,
         900,
-        'png',
+        "png",
         100,
         0,
         (uri) => {
           resolve(uri);
         },
-        'file'
+        "file",
       );
     });
   };
@@ -191,36 +190,35 @@ const ImageUpload = ({
   };
 
   return (
-    <div className='mt-8'>
-      <form onSubmit={handleSubmit} className='flex justify-between'>
-      <div>
+    <div className="mt-8">
+      <form onSubmit={handleSubmit} className="flex justify-between">
+        <div className="mr-3">
           {/* image queued for upload */}
           {fileLink && (
             <>
               <Image src={fileLink} width={200} height={200} />
-              <h3 className='mb-4'>Click upload button</h3>
+              <h3 className="mb-4">Click upload button</h3>
             </>
           )}
         </div>
-        <div className='flex flex-col'>
+        <div className="flex flex-col items-end">
           {!file && (
-            <h1 className='mb-2'>Choose an image for this species to upload</h1>
+            <h1 className="mb-2">Choose an image for this species to upload</h1>
           )}
           <input
-            className='mb-6'
-            type='file'
-            accept='image/*'
+            className={`${styles.fileSelector} mb-6`}
+            type="file"
+            accept="image/*"
             onChange={handleFileChange}
           />
           <Button
-            type='submit'
-            variant='primary'
-            btnClass=''
-            text={uploading ? 'Uploading...' : 'Upload'}
+            type="submit"
+            variant="primary"
+            btnClass=""
+            text={uploading ? "Uploading..." : "Upload"}
             disabled={!file || uploading}
           />
         </div>
-        
       </form>
     </div>
   );
