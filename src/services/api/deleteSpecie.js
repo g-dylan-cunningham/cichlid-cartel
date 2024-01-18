@@ -9,22 +9,23 @@ export default async function deleteSpecie(specie) {
   function onFailure(res) {
     console.log("failure", res);
   }
-  Promise.all(
+  await Promise.all(
     thumbnailArr.map((img) => deleteImages(img, onSuccess, onFailure)),
-  ).then((data) => {
-    console.log("data returned", data);
-    const { specie_id } = specie;
-    fetch("/api/species", {
+  ) //.then((data) => {
+
+  const { specie_id } = specie;
+  try {
+    const res = await fetch("/api/species", {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ specie_id }),
     })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("delete data", data);
-      })
-      .catch((e) => console.log(e));
-  });
+    const data = await res.json();
+    return data;
+
+  } catch (e) {
+    console.error('delete error', e);
+  }
 }

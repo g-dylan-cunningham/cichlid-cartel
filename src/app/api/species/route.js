@@ -77,7 +77,6 @@ export async function PATCH(request) {
 export async function DELETE(request, response) {
   try {
     const body = await request.json();
-    console.log('species delete body', body)
     const { specie_id } = body;
   
     await prisma.species.delete({
@@ -86,7 +85,7 @@ export async function DELETE(request, response) {
       }
     });
     revalidatePath(`/admin`);
-    
+
     return NextResponse.json({ success: true});
   } catch (e) {
     console.log(e);

@@ -5,7 +5,7 @@ import React, { useState, useContext } from 'react';
 const Modal = ({ setShowModal, heading, subheading, children }) => {
   return (
     <>
-      <div className='fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overflow-x-hidden outline-none focus:outline-none overflow-hidden'
+      <div className='fixed inset-0 z-30 flex items-center justify-center overflow-y-auto overflow-x-hidden outline-none focus:outline-none overflow-hidden'
         style={{ top: '60px' }}
       >
         <div className='relative m-1 md:mx-auto my-6 xl:w-1/2 lg:w-2/3 md:w-full w-screen p-5 md:p-10'>
@@ -37,7 +37,7 @@ const Modal = ({ setShowModal, heading, subheading, children }) => {
           </div>
         </div>
       </div>
-      <div className='fixed inset-0 z-40 bg-black opacity-25'></div>
+      <div className='fixed inset-0 z-20 bg-black opacity-25'></div>
     </>
   );
 };

@@ -7,15 +7,16 @@ import styles from "./styles.module.css";
 import Modal from "@/app/components/Modal";
 import { deleteSpecie } from "@/services/api";
 import WireFrame from "./page-wireframe";
+import FullScreenSpinner from "@/app/components/FullScreenSpinner"
 
 const Admin = () => {
-  const [isDashboardLoading, setIsDashboardLoading] = useState(false);
+  const [isDashboardLoading, setIsDashboardLoading] = useState(true);
   const [isSpeciesDeleteLoading, setIsSpeciesDeleteLoading] = useState(false);
   const [species, setSpecies] = useState([]);
   const [isDangerModal, setIsDangerModal] = useState(false);
   const [currentSpecie, setCurrentSpecie] = useState({});
 
-  useEffect(() => { // fetch all species for initial load
+  useEffect(() => { // fetch all species for initial load & after species deletion
     setIsDashboardLoading(true);
     fetch(
       "/api/species"
@@ -29,37 +30,27 @@ const Admin = () => {
         console.log(e);
         setIsDashboardLoading(false);
       });
-  }, []);
+  }, [isSpeciesDeleteLoading]);
 
   const handleDeleteSpecies = async (specie) => {
-    setIsSpeciesDeleteLoading(true); // TODO do something with this value. its unused
-    function onSuccess(data) {
-      console.log('on success data', data)
-    }
-    function onFailure(data) {
-      console.log('on failure data', data)
-    }
-    await deleteSpecie(specie, onSuccess, onFailure);
-    setIsSpeciesDeleteLoading(false);
+    setIsSpeciesDeleteLoading(true);
     setIsDangerModal(false);
+    // params (specie, onSuccess, onFailure)
+    await deleteSpecie(specie, () => {}, () => {});
+    setIsSpeciesDeleteLoading(false);
   }
 
   const getFirstThumbnail = useCallback((imageArr) => {
     let image = imageArr.find(el => el.is_thumbnail === true)
-    // console.log('image;', image)
     return image?.thumbnail_url;
   }, [])
 
-  if (isDashboardLoading)
+  if (isDashboardLoading && !isSpeciesDeleteLoading)
     return <WireFrame />;
 
   return (
     <Main>
-      {
-        isSpeciesDeleteLoading && (
-          <Modal heading="please wait..." />
-        )
-      }
+      {isSpeciesDeleteLoading && <FullScreenSpinner />}
       {isDangerModal && (
         <Modal
           setShowModal={setIsDangerModal}
@@ -71,7 +62,7 @@ const Admin = () => {
               * A species that has no SKUs will appear as &apos;out of stock&apos;
             </p>
             <div className="flex justify-center px-12 lg:px-24">
-              <button className="btn btn-error mx-3" onClick={() => handleDeleteSpecies(currentSpecie)}>DELETE</button>
+              <button className="btn btn-error mx-3" onClick={async() => handleDeleteSpecies(currentSpecie)}>DELETE</button>
               <button
                 className="btn btn-outline mx-3"
                 onClick={() => setIsDangerModal(false)}
@@ -82,6 +73,7 @@ const Admin = () => {
           </div>
         </Modal>
       )}
+
       <h1 className="mb-4 text-4xl font-bold capitalize">Dashboard</h1>
       <div className="overflow-x-auto">
         <table className="table table-pin-rows table-pin-cols table-xs">
