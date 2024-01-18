@@ -32,7 +32,7 @@ const Admin = () => {
   }, []);
 
   const handleDeleteSpecies = async (specie) => {
-    setIsSpeciesDeleteLoading(true);
+    setIsSpeciesDeleteLoading(true); // TODO do something with this value. its unused
     function onSuccess(data) {
       console.log('on success data', data)
     }
@@ -41,6 +41,7 @@ const Admin = () => {
     }
     await deleteSpecie(specie, onSuccess, onFailure);
     setIsSpeciesDeleteLoading(false);
+    setIsDangerModal(false);
   }
 
   const getFirstThumbnail = useCallback((imageArr) => {
@@ -245,9 +246,12 @@ const Admin = () => {
             ))}
           </tbody>
           <tfoot>
-            <tr></tr>
           </tfoot>
         </table>
+        {species.length === 0 && (
+            <p className="mt-5 text-xl">You have no species configured. Please add some</p>
+            )}
+
         <div className="mt-3 flex w-full justify-center">
           <Link href={`/admin/species/create`} className="btn btn-primary mt-3">
             Add New Species

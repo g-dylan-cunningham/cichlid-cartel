@@ -53,7 +53,7 @@ const CreateNewSpecies = () => {
     formik.setFieldValue(target.name, target.value);
   };
 
-  console.log(formik);
+
   return (
     <Main>
       <h1 className='text-xl'>Add New Species:</h1>

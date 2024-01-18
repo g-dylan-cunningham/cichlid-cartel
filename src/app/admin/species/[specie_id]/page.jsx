@@ -85,7 +85,7 @@ const SpeciesEdit = ({ params: { specie_id } }) => {
     const { target } = e;
     formik.setFieldValue(target.name, target.value);
   };
-  // console.log('formik', formik);
+
   return (
     <Main>
       <BackButton href="/admin">
