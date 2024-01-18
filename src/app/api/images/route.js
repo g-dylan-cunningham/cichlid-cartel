@@ -31,8 +31,7 @@ export async function DELETE(req, res) {
         Key: img.key, // required
       };
       const command = new DeleteObjectCommand(input);
-      awsResponse = await client.send(command);
-      // console.log("awsResponse", awsResponse);
+      await client.send(command);
     } catch (e) {
       console.error('e', e);
     } finally {
@@ -51,7 +50,6 @@ export async function DELETE(req, res) {
 
   const { imagesToBeDeleted } = await req.json();
   let deletedImage = {};
-  let awsResponse;
 
   Promise.all(
     imagesToBeDeleted.map((img) => deleteImageAwsAndPrisma(img))

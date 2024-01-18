@@ -13,7 +13,7 @@ export default function isAuth(Component) {
       if (!isAdmin) {
         return redirect("/");
       }
-    }, []);
+    }, [isAdmin]);
 
 
     if (!isAdmin) {

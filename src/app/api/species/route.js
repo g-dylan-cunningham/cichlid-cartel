@@ -24,13 +24,35 @@ export async function GET(request) {
   // get single species
   const specie_id = request.nextUrl.searchParams.get(['specie_id']);
 
-  const specie = await prisma.species.findUnique({
-    where: {
-      specie_id,
+  // handle fetch unique
+  if (specie_id) {
+    const specie = await prisma.species.findUnique({
+      where: {
+        specie_id,
+      },
+      include: { skus: true },
+    });
+    return NextResponse.json(specie);
+  }
+
+  // handle fetch all
+  const species = await prisma.species.findMany({
+    orderBy: { created_at: 'desc' },
+    include: {
+      skus: {
+        orderBy: { created_at: 'desc' },
+      },
+      images: {
+        // where: {
+        //   is_primary: true,
+        //   is_thumbnail: true,
+        // },
+      },
     },
-    include: { skus: true },
   });
-  return NextResponse.json(specie);
+  return NextResponse.json(species);
+
+  
 }
 
 export async function PATCH(request) {
@@ -52,8 +74,23 @@ export async function PATCH(request) {
   return NextResponse.json(specie);
 }
 
-// const handleSpeciesUpdateSubmit = (e) => {
-//   console.log("e.target.", e.target);
-//   updateSpeciesWithId(e.formData);
-//   setIsEditable(false);
-// };
+export async function DELETE(request, response) {
+  try {
+    const body = await request.json();
+    console.log('species delete body', body)
+    const { specie_id } = body;
+  
+    await prisma.species.delete({
+      where: {
+        specie_id,
+      }
+    });
+    revalidatePath(`/admin`);
+    
+    return NextResponse.json({ success: true});
+  } catch (e) {
+    console.log(e);
+    return NextResponse.json({ success: false, error: e});
+  }
+
+}

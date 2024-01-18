@@ -14,7 +14,7 @@ const Filter = () => {
 
   const categoryArr = useMemo(() => {
     return searchParams.get('category')?.split(',') || categoryList; // if no query strings, select all categories
-  }, [searchParams]);
+  }, [searchParams, categoryList]);
 
   const [checked, setChecked] = useState(
     categoryArr.reduce((accum, cur) => {

@@ -40,7 +40,7 @@ model Sku {
   is_oos       Boolean  @default(false)
   created_at   DateTime @default(now())
   updated_at   DateTime @updatedAt
-  species      Species  @relation(fields: [specie_id], references: [specie_id])
+  species      Species  @relation(fields: [specie_id], references: [specie_id], onDelete: Cascade)
 
   @@map("skus")
 }
@@ -58,7 +58,7 @@ model Images {
   full_image_key String?
   created_at     DateTime @default(now())
   updated_at     DateTime @updatedAt
-  species        Species  @relation(fields: [specie_id], references: [specie_id])
+  species        Species  @relation(fields: [specie_id], references: [specie_id], onDelete: Cascade)
 
   @@map("images")
 }

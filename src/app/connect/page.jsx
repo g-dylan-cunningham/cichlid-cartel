@@ -57,6 +57,7 @@ const About = () => {
   return (
     <Main>
       <h1 className="text-4xl pb-3">Connect With Us</h1>
+      <p className="text-xl">Please add your email, name and zipcode to receive our latest offers and discounts</p>
 
       {isSuccessMsg && (
         <div role="alert" className="alert alert-success">

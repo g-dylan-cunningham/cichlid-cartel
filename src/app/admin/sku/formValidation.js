@@ -1,6 +1,6 @@
 import { countDecimals } from '@/app/utils';
 
-export default (values, props) => {
+const validationSchema = (values, props) => {
   const errors = {};
   if (!values.size || values.size === 'default') {
     errors.size = 'Please select a size for this sku';
@@ -31,3 +31,5 @@ export default (values, props) => {
 
   return errors;
 };
+
+export default validationSchema;

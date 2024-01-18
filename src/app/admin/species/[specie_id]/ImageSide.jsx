@@ -4,6 +4,7 @@ import Link from 'next/link';
 import ImageUpload from '@/app/components/imageUpload';
 import Modal from '@/app/components/Modal';
 import { Button } from '@/app/components/forms';
+import { deleteImages } from '@/services/api';
 
 const ImageDetailModal = ({
   setShowSelectedImgModal,
@@ -22,6 +23,7 @@ const ImageDetailModal = ({
         src={src}
         width={800}
         height={800}
+        alt="a gorgeous cichlid"
       />
     </Modal>
   );
@@ -55,37 +57,51 @@ const ImageSide = ({ specie, isEditable, showModal, setShowModal }) => {
   }, [specie.specie_id]);
 
   const handleDeleteImg = async (e, img) => {
-    // create two keys so we can delete both thumbnail and main.
-    const imagesToBeDeleted = [
-      { key: img.key, image_id: img.image_id }, // thumbnail
-      {
-        image_id: img.full_image_key,
-        key: img.key.replace('/thumbnail/', '/full/'),
-      }, // full image
-    ];
-
     e.preventDefault();
-    const response = await fetch('/api/images',
-      {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          imagesToBeDeleted,
-        }),
-      }
-    );
-
-    if (response.ok) {
+    function onSuccess() {
       const newAssociatedImages = associatedImgs.filter((elem) => {
         return elem.image_id !== img.image_id;
       });
       setAssociatedImgs(newAssociatedImages);
-    } else {
-      console.log('response error', response);
     }
-  };
+
+    function onFailure(err) {
+      console.error('err', err);
+    }
+    await deleteImages(img, onSuccess, onFailure);
+  }
+  // const handleDeleteImg = async (e, img) => {
+  //   // create two keys so we can delete both thumbnail and main.
+  //   const imagesToBeDeleted = [
+  //     { key: img.key, image_id: img.image_id }, // thumbnail
+  //     {
+  //       image_id: img.full_image_key,
+  //       key: img.key.replace('/thumbnail/', '/full/'),
+  //     }, // full image
+  //   ];
+
+  //   e.preventDefault();
+  //   const response = await fetch('/api/images',
+  //     {
+  //       method: 'DELETE',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({
+  //         imagesToBeDeleted,
+  //       }),
+  //     }
+  //   );
+
+  //   if (response.ok) {
+  //     const newAssociatedImages = associatedImgs.filter((elem) => {
+  //       return elem.image_id !== img.image_id;
+  //     });
+  //     setAssociatedImgs(newAssociatedImages);
+  //   } else {
+  //     console.log('response error', response);
+  //   }
+  // };
 
   if (imgsLoading) {
     return <div>images loading...</div>;

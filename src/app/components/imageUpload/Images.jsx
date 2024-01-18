@@ -196,7 +196,7 @@ const ImageUpload = ({
           {/* image queued for upload */}
           {fileLink && (
             <>
-              <Image src={fileLink} width={200} height={200} />
+              <Image src={fileLink} width={200} height={200} alt="your image to upload" />
               <h3 className="mb-4">Click upload button</h3>
             </>
           )}
