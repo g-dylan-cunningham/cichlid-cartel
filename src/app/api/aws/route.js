@@ -14,7 +14,7 @@ export async function POST(request) {
       region: process.env.AWS_REGION,
     });
 
-    // console.log("process.env.AWS_BUCKET_NAME", process.env.AWS_ACCESS_KEY_ID, process.env.AWS_SECRET_ACCESS_KEY, process.env.AWS_BUCKET_NAME, process.env.AWS_REGION)
+    console.log("process.env.AWS_BUCKET_NAME", process.env.AWS_ACCESS_KEY_ID, process.env.AWS_SECRET_ACCESS_KEY, process.env.AWS_BUCKET_NAME, process.env.AWS_REGION)
     const { url, fields } = await createPresignedPost(client, {
       Bucket: process.env.AWS_BUCKET_NAME,
       Key: `${key}`,
