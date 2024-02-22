@@ -8,6 +8,7 @@ import { Field } from '@/app/components/forms';
 import { Main } from '@/app/components';
 import formValidation from '@/app/admin/sku/formValidation';
 import { fields } from '@/app/admin/sku/skuConfig';
+import Skeleton from '../../sku-wireframe';
 
 const SkuCreate = ({ params: { specie_id } }) => {
   const [isSpecieLoading, setIsSpecieLoading] = useState(false);
@@ -82,22 +83,15 @@ const SkuCreate = ({ params: { specie_id } }) => {
     }
   };
 
+  const heading = "Create SKU";
   if (isSpecieLoading)
     return (
-      <Main>
-        <h1 className='text-2xl font-bold capitalize'>Create Sku: </h1>
-        <div className='skeleton my-1 h-6 w-36'></div>
-        <div className='skeleton my-1 h-8 w-48'></div>
-        <div className='skeleton my-3 h-12 w-64'></div>
-        <div className='skeleton my-3 h-12 w-64'></div>
-        <div className='skeleton my-3 h-12 w-64'></div>
-        <div className='skeleton my-3 h-48 w-64'></div>
-      </Main>
+      <Skeleton heading={heading} />
     );
 
   return (
     <Main>
-      <h1 className='text-2xl font-bold capitalize'>Create Sku: </h1>
+      <h1 className='text-2xl font-bold capitalize'>{heading}</h1>
       <h2 className='text-l font-bold'>{specie.common_name}</h2>
       <h3 className='text-lg font-bold opacity-50'>{specie.scientific_name}</h3>
 

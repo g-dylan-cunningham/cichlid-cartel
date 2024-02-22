@@ -1,15 +1,15 @@
-'use client';
+"use client";
 
-import React, { useEffect, useState } from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useFormik } from 'formik';
-import { Field } from '@/app/components/forms';
-import { Main, BackButton } from '@/app/components';
-import formValidation from '@/app/admin/sku/formValidation';
-import { fields } from '@/app/admin/sku/skuConfig';
-import isAuth from '@/app/providers/Admin/isAuthHoc';
-
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useFormik } from "formik";
+import { Field } from "@/app/components/forms";
+import { Main, BackButton } from "@/app/components";
+import formValidation from "@/app/admin/sku/formValidation";
+import { fields } from "@/app/admin/sku/skuConfig";
+import isAuth from "@/app/providers/Admin/isAuthHoc";
+import Skeleton from "../sku-wireframe";
 
 const SkuCreate = ({ params: { sku_id } }) => {
   const [isSkuLoading, setIsSkuLoading] = useState(false);
@@ -19,10 +19,10 @@ const SkuCreate = ({ params: { sku_id } }) => {
   useEffect(() => {
     setIsSkuLoading(true);
     fetch(
-      '/api/skus?' +
+      "/api/skus?" +
         new URLSearchParams({
           sku_id,
-        })
+        }),
     )
       .then((res) => res.json())
       .then((data) => {
@@ -43,10 +43,10 @@ const SkuCreate = ({ params: { sku_id } }) => {
         specie_id: sku.species.specie_id,
       };
       setIsSkuLoading(true);
-      const res = fetch('/api/skus', {
-        method: 'PATCH',
+      const res = fetch("/api/skus", {
+        method: "PATCH",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(payload),
       })
@@ -57,7 +57,7 @@ const SkuCreate = ({ params: { sku_id } }) => {
         })
         .catch((e) => {
           setIsSkuLoading(false);
-          console.log('eeee', e);
+          console.log("eeee", e);
         });
     } catch (e) {
       console.log(e);
@@ -65,26 +65,26 @@ const SkuCreate = ({ params: { sku_id } }) => {
   };
 
   const handleSkuDelete = async () => {
-    fetch('/api/skus', {
+    fetch("/api/skus", {
       method: "DELETE",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         sku_id: sku.sku_id,
-        specie: sku.species.specie_id
-      })
+        specie: sku.species.specie_id,
+      }),
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log('deleted sku', data)
+        console.log("deleted sku", data);
         // setIsAdmin(false)
-        router.push(`/admin/species/${sku?.species?.specie_id}`)
+        router.push(`/admin/species/${sku?.species?.specie_id}`);
       })
       .catch((e) => {
-        console.log(e)
+        console.log(e);
       });
-  }
+  };
 
   const formik = useFormik({
     enableReinitialize: true, // need this to take latest values
@@ -100,41 +100,31 @@ const SkuCreate = ({ params: { sku_id } }) => {
 
   const handleChange = (e) => {
     const { target } = e;
-    if (target.name === 'price') {
+    if (target.name === "price") {
       formik.setFieldValue(
         target.name,
-        target.value.replace(/[^0-9\.\$]/g, '')
+        target.value.replace(/[^0-9\.\$]/g, ""),
       );
     } else {
       formik.setFieldValue(target.name, target.value);
     }
   };
-
-  if (isSkuLoading) 
-    return (
-      <Main>
-        <h1 className='text-2xl font-bold capitalize'>Edit Sku:</h1>
-        <div className='skeleton my-1 h-6 w-36'></div>
-        <div className='skeleton my-1 h-8 w-48'></div>
-        <div className='skeleton my-3 h-12 w-64'></div>
-        <div className='skeleton my-3 h-12 w-64'></div>
-        <div className='skeleton my-3 h-12 w-64'></div>
-        <div className='skeleton my-3 h-48 w-64'></div>
-      </Main>
-    );
+  
+  const heading = "Edit SKU";
+  if (isSkuLoading) return <Skeleton heading={heading} />;
 
   return (
     <Main>
       <BackButton />
-      <h1 className='text-2xl font-bold capitalize'>Edit Sku:</h1>
-      <h2 className='text-l font-bold'>{sku?.species?.common_name}</h2>
-      <h3 className='text-lg font-bold opacity-50'>
+      <h1 className="text-2xl font-bold capitalize">{heading}</h1>
+      <h2 className="text-l font-bold">{sku?.species?.common_name}</h2>
+      <h3 className="text-lg font-bold opacity-50">
         {sku?.species?.scientific_name}
       </h3>
 
       <form
         onSubmit={formik.handleSubmit}
-        className='flex flex-col justify-between'
+        className="flex flex-col justify-between"
       >
         {fields.map((item, i) => (
           <Field
@@ -147,18 +137,18 @@ const SkuCreate = ({ params: { sku_id } }) => {
 
         {/* BUTTONS */}
 
-        <div className='mt-5 flex flex-row justify-between'>
+        <div className="mt-5 flex flex-row justify-between">
           {/* <Link
             href={`/admin/species/${sku?.species?.specie_id}`}
             className='btn btn-outline btn-secondary'
           > */}
-          <button className='btn btn-error' onClick={handleSkuDelete}>
-          Delete
+          <button className="btn btn-error" onClick={handleSkuDelete}>
+            Delete
           </button>
-            {/* 
+          {/* 
           </Link> */}
 
-          <button type='submit' className='btn btn-primary btn-active'>
+          <button type="submit" className="btn btn-primary btn-active">
             Save
           </button>
         </div>

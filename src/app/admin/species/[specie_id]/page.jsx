@@ -12,6 +12,7 @@ import SkuList from '@/app/admin/components/SkuList';
 import { fields } from '../speciesConfig';
 import validationSchema from '../formValidation'
 import ImageSide from './ImageSide';
+import Skeleton from './specie-wireframe';
 
 const SpeciesEdit = ({ params: { specie_id } }) => {
   useEffect(() => {
@@ -68,17 +69,12 @@ const SpeciesEdit = ({ params: { specie_id } }) => {
     validationSchema,
   });
 
+  const heading = "Species Update";
+
   if (isLoading) return (
-    <div className='flex justify-center'>
-      <div className='flex flex-col justify-center py-5'>
-      <h1 className='text-4xl mt-6 mb-2'>Species Update</h1>
-        <div className="skeleton w-64 h-12 my-3"></div>
-        <div className="skeleton w-64 h-12 my-3"></div>
-        <div className="skeleton w-64 h-12 my-3"></div>
-        <div className="skeleton w-64 h-48 my-3"></div>
-      </div>
-    </div>
+    <Skeleton heading={heading} />
   );
+  
   if (!specie) return <p>No species data</p>;
 
   const handleChange = (e) => {
@@ -91,7 +87,7 @@ const SpeciesEdit = ({ params: { specie_id } }) => {
       <BackButton href="/admin">
         <div className='leading-tight'>Dash</div><div className='leading-tight'>board</div>
       </BackButton>
-      <h1 className='text-4xl mb-2'>Species Update</h1>
+      <h1 className='text-4xl mb-2'>{heading}</h1>
       <div className='gap-8 flex flex-col lg:grid lg:grid-cols-2'>
         {/* LEFT COLUMN */}
         <div className='flex flex-col space-y-3'>
